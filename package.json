@@ -1,0 +1,11 @@
+{
+    "name": "auth-api",
+    "version": "1.0.1",
+    "author": "Darco2903",
+    "description": "",
+    "keywords": [],
+    "license": "ISC",
+    "main": "index.js",
+    "types": "./index.d.ts",
+    "dependencies": {}
+}
