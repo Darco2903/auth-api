@@ -10,7 +10,7 @@ const AuthAPI: {
 
     permission(): Promise<Response.Permission>;
 
-    hasPermission(session_id: string, level: number): Promise<Response.HasPermission>;
+    hasPermission(level: number): Promise<Response.HasPermission>;
 
     refresh(): Promise<Response.Refresh>;
 

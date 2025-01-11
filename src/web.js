@@ -24,10 +24,19 @@ async function rawFetch(url, options = {}) {
 }
 
 async function apiFetch(url, options) {
-    return rawFetch(url, options).then((res) => {
-        if (res.status === 200) return res.json();
-        else return { result: false, error: res.statusText };
-    });
+    // return rawFetch(url, options).then((res) => {
+    //     if (res.status === 200) return res.json();
+    //     else return { result: false, error: res.statusText };
+    // });
+    return rawFetch(url, options)
+        .then((res) => {
+            switch (res.status) {
+                case 502:
+                    throw new Error("Could not connect to the server");
+            }
+            return res.json();
+        })
+        .catch((e) => ({ result: false, error: e.message }));
 }
 
 async function sendRequestGET(endPoint, data) {
@@ -69,7 +78,7 @@ export default {
     auth: () => sendRequestGET("/auth"),
     login: (identifier, password) => sendRequestPOST("/login", { identifier, password }),
     permission: () => sendRequestGET("/permission/"),
-    hasPermission: (session_id, level) => sendRequestPOST("/permission", { session_id, level }),
+    hasPermission: (level) => sendRequestPOST("/permission", { level }),
     refresh: () => sendRequestGET("/refresh"),
     session: () => sendRequestGET("/session"),
 
