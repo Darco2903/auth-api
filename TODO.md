@@ -1,0 +1,3 @@
+-   [ ] caching
+-   [x] cross module (node / browser)
+-   [ ] remove `session_id` from `hasPermission` **web** (check server side)

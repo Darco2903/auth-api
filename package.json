@@ -3,9 +3,14 @@
     "version": "1.0.1",
     "author": "Darco2903",
     "description": "",
+    "private": true,
     "keywords": [],
     "license": "ISC",
-    "main": "index.js",
-    "types": "./index.d.ts",
-    "dependencies": {}
+    "type": "commonjs",
+    "main": "./src/node.js",
+    "module": "./src/web.js",
+    "exports": {
+        "require": "./src/node.js",
+        "import": "./src/web.js"
+    }
 }

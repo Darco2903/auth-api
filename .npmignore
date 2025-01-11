@@ -1,5 +1,9 @@
+# dev
 .vscode/
 .gitattributes
+tests/
+temp_/
 
 # tarballs
-auth-api-*.tgz
+# auth-api-*.tgz
+dist/
