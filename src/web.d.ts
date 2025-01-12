@@ -4,17 +4,22 @@ import { ROLES } from "./types/roles";
 const AuthAPI: {
     ROLES: ROLES;
 
-    auth(): Promise<Response.Base>;
+    auth(): Promise<Response.Auth>;
 
     login(identifier: string, password: string): Promise<Response.Login>;
 
-    permission(): Promise<Response.Permission>;
 
-    hasPermission(level: number): Promise<Response.HasPermission>;
+    permission: {
+        get(): Promise<Response.Permission>;
 
-    refresh(): Promise<Response.Refresh>;
+        has(level: number): Promise<Response.HasPermission>;
+    };
 
-    session(): Promise<Response.Session>;
+    session: {
+        get(): Promise<Response.Session>;
+
+        refresh(): Promise<Response.Refresh>;
+    };
 
     user: {
         getFromId(client_id: string): Promise<Response.User>;
@@ -26,7 +31,9 @@ const AuthAPI: {
         picture: {
             profile: {
                 get(client_id: string): Promise<Response.UserPictureProfileGet>;
+
                 update(image: Blob, roundBorder?: boolean): Promise<Response.UserPictureProfileUpdate>;
+
                 delete(roundBorder?: boolean): Promise<Response.UserPictureProfileDelete>;
             };
         };

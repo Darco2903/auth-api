@@ -91,10 +91,16 @@ module.exports = {
 
     auth: (session_id) => sendRequestGET("/auth", { session_id }),
     login: (identifier, password) => sendRequestPOST("/login", { identifier, password }),
-    permission: (session_id = "") => sendRequestGET(`/permission/${session_id}`),
-    hasPermission: (session_id, level) => sendRequestPOST("/permission", { session_id, level }),
-    refresh: (session_id) => sendRequestGET("/refresh", { session_id }),
-    session: (session_id) => sendRequestGET("/session", { session_id }),
+
+    permission: {
+        get: (session_id = "") => sendRequestGET(`/permission/${session_id}`),
+        has: (session_id, level) => sendRequestPOST("/permission", { session_id, level }),
+    },
+
+    session: {
+        get: (session_id) => sendRequestGET("/session", { session_id }),
+        refresh: (session_id) => sendRequestGET("/refresh", { session_id }),
+    },
 
     user: {
         getFromId: (user_id = "") => sendRequestGET(`/user/id/${user_id}`),

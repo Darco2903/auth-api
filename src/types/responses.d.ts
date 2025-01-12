@@ -6,6 +6,8 @@ export type Base = {
     error?: string;
 };
 
+export type Auth = Base;
+
 export type Login = Base & {
     session_id?: string;
     error?: Error.Login;

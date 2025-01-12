@@ -77,10 +77,16 @@ export default {
 
     auth: () => sendRequestGET("/auth"),
     login: (identifier, password) => sendRequestPOST("/login", { identifier, password }),
-    permission: () => sendRequestGET("/permission/"),
-    hasPermission: (level) => sendRequestPOST("/permission", { level }),
-    refresh: () => sendRequestGET("/refresh"),
-    session: () => sendRequestGET("/session"),
+
+    permission: {
+        get: () => sendRequestGET("/permission/"),
+        has: (level) => sendRequestPOST("/permission", { level }),
+    },
+
+    session: {
+        get: () => sendRequestGET("/session"),
+        refresh: () => sendRequestGET("/refresh"),
+    },
 
     user: {
         getFromId: (user_id = "") => sendRequestGET(`/user/id/${user_id}`),
