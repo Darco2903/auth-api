@@ -13,6 +13,8 @@ export type Login = Base & {
     error?: Error.Login;
 };
 
+export type Logout = Base;
+
 export type HasPermission = Base & {
     // error?: Error.Auth | Error.LevelRequired;
     error?: Error.LevelRequired;

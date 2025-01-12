@@ -8,6 +8,7 @@ const AuthAPI: {
 
     login(identifier: string, password: string): Promise<Response.Login>;
 
+    logout(session_id: string): Promise<Response.Logout>;
 
     permission: {
         get(session_id: string): Promise<Response.Permission>;

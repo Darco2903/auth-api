@@ -77,6 +77,7 @@ export default {
 
     auth: () => sendRequestGET("/auth"),
     login: (identifier, password) => sendRequestPOST("/login", { identifier, password }),
+    logout: () => sendRequestGET("/logout"),
 
     permission: {
         get: () => sendRequestGET("/permission/"),

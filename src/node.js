@@ -91,6 +91,7 @@ module.exports = {
 
     auth: (session_id) => sendRequestGET("/auth", { session_id }),
     login: (identifier, password) => sendRequestPOST("/login", { identifier, password }),
+    logout: (session_id) => sendRequestPOST("/logout", { session_id }),
 
     permission: {
         get: (session_id = "") => sendRequestGET(`/permission/${session_id}`),
