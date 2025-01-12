@@ -3,7 +3,7 @@
 .gitattributes
 tests/
 temp_/
+TODO.md
 
 # tarballs
-# auth-api-*.tgz
-dist/
+auth-api-*.tgz
