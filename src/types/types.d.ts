@@ -16,7 +16,7 @@ export type User = UserPublic & {
     email: string;
     // id: number;
     last_login: string;
-    // profile_picture: string;
+    profile_picture: string;
     role: Role;
     updated_at: string;
 };

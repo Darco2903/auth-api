@@ -23,7 +23,7 @@ async function rawFetch(endpoint, options = {}) {
         ...options,
         headers: {
             ...options?.headers,
-            cookie: options?.headers?.cookie ? `${options.headers.cookie};env=${env}` : `env=${env}`,
+            cookie: options?.headers?.cookie ? `${options.headers.cookie}; env=${env}` : `env=${env}`,
         },
     });
 }
