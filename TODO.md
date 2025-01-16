@@ -1,3 +1,5 @@
 -   [ ] caching
 -   [x] cross module (node / browser)
--   [ ] remove `session_id` from `hasPermission` **web** (check server side)
+-   [x] remove `session_id` from `hasPermission` **web** (check server side)
+-   [x] add logout method
+-   [ ] add register method

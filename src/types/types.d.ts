@@ -1,8 +1,11 @@
-export type User = {
+export type UserPublic = {
     public_id: string;
     name: string;
-    email: string;
     round_border: boolean;
+};
+
+export type User = UserPublic & {
+    email: string;
 };
 
 export type Session = {

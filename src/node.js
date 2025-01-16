@@ -4,6 +4,8 @@ const ROLES = require("./shared/roles.json");
 let API_ORIGIN;
 let API_URL;
 
+const env = "node";
+
 function setApiOrigin(origin = DEFAULT_ORIGIN) {
     try {
         new URL(origin);
@@ -14,28 +16,24 @@ function setApiOrigin(origin = DEFAULT_ORIGIN) {
     API_URL = API_ORIGIN + API_PATH;
 }
 
-setApiOrigin(API_ORIGIN);
+setApiOrigin();
 
-async function rawFetch(url, options = {}) {
-    return fetch(url, {
+async function rawFetch(endpoint, options = {}) {
+    return fetch(API_URL + endpoint, {
         ...options,
         headers: {
             ...options?.headers,
-            // cookie: sessionId ? `session_id=${sessionId}` : "",
+            cookie: options?.headers?.cookie ? `${options.headers.cookie}; env=${env}` : `env=${env}`,
         },
     });
 }
 
 async function apiFetch(url, options) {
-    // return rawFetch(url, options).then((res) => {
-    //     if (res.status === 200) return res.json();
-    //     else return { result: false, error: res.statusText };
-    // });
     return rawFetch(url, options)
         .then((res) => {
             switch (res.status) {
                 case 502:
-                    throw new Error("Could not connect to the server");
+                    throw new Error("CONNECTION_ERROR");
             }
             return res.json();
         })
@@ -43,9 +41,53 @@ async function apiFetch(url, options) {
 }
 
 async function sendRequestGET(endPoint, data, options = {}) {
-    const url = new URL(API_URL + endPoint);
-    if (data) Object.entries(data).forEach(([key, value = ""]) => url.searchParams.append(key, value));
-    return apiFetch(url, options);
+    const params = new URLSearchParams();
+    if (data) {
+        Object.entries(data).forEach(([key, value = ""]) => params.append(key, value));
+    }
+    return apiFetch(`${endPoint}?${params.toString()}`, options);
+}
+
+async function sendRequestPOST(endPoint, data = {}, options = {}) {
+    return apiFetch(endPoint, {
+        ...options,
+        method: "POST",
+
+        // set x-www-form-urlencoded
+        headers: {
+            ...options?.headers,
+            "Content-Type": data ? "application/json" : "",
+        },
+        body: JSON.stringify(data),
+    });
+}
+
+async function sendRequestPUT(endPoint, data, options = {}) {
+    return apiFetch(endPoint, {
+        ...options,
+        method: "PUT",
+
+        // set x-www-form-urlencoded
+        headers: {
+            ...options?.headers,
+            "Content-Type": data ? "application/json" : "",
+        },
+        body: JSON.stringify(data),
+    });
+}
+
+async function sendRequestDELETE(endPoint, data, options = {}) {
+    return apiFetch(endPoint, {
+        ...options,
+        method: "DELETE",
+
+        // set x-www-form-urlencoded
+        headers: {
+            ...options?.headers,
+            "Content-Type": data ? "application/json" : "",
+        },
+        body: JSON.stringify(data),
+    });
 }
 
 function createFormData(data = {}) {
@@ -54,34 +96,14 @@ function createFormData(data = {}) {
     return formData;
 }
 
-async function sendRequestPOST(endPoint, data, options = {}) {
-    return apiFetch(API_URL + endPoint, {
-        ...options,
-        method: "POST",
-        body: createFormData(data),
-    });
-}
-
-async function sendRequestPUT(endPoint, data, options = {}) {
-    return apiFetch(API_URL + endPoint, {
-        ...options,
-        method: "PUT",
-        body: createFormData(data),
-    });
-}
-
-async function sendRequestDELETE(endPoint, data, options = {}) {
-    return apiFetch(API_URL + endPoint, {
-        ...options,
-        method: "DELETE",
-        body: createFormData(data),
-    });
-}
-
 function sessionIdCookie(session_id) {
+    return `session_id=${session_id}`;
+}
+
+function sessionIdCookieHeader(session_id) {
     return {
         headers: {
-            cookie: session_id ? `session_id=${session_id}` : "",
+            cookie: session_id ? sessionIdCookie(session_id) : "",
         },
     };
 }
@@ -89,31 +111,37 @@ function sessionIdCookie(session_id) {
 module.exports = {
     ROLES,
 
-    auth: (session_id) => sendRequestGET("/auth", { session_id }),
+    auth: (session_id) => sendRequestGET("/auth", null, sessionIdCookieHeader(session_id)),
     login: (identifier, password) => sendRequestPOST("/login", { identifier, password }),
-    logout: (session_id) => sendRequestPOST("/logout", { session_id }),
+    logout: (session_id = "") => sendRequestPOST("/logout", null, sessionIdCookieHeader(session_id)),
 
     permission: {
-        get: (session_id = "") => sendRequestGET(`/permission/${session_id}`),
-        has: (session_id, level) => sendRequestPOST("/permission", { session_id, level }),
+        get: (session_id = "") => sendRequestGET("/permission/get", null, sessionIdCookieHeader(session_id)),
+        has: (session_id = "", level) => sendRequestGET("/permission/has", { level }, sessionIdCookieHeader(session_id)),
     },
 
     session: {
-        get: (session_id) => sendRequestGET("/session", { session_id }),
-        refresh: (session_id) => sendRequestGET("/refresh", { session_id }),
+        get: (session_id) => sendRequestGET("/session", null, sessionIdCookieHeader(session_id)),
+        refresh: (session_id) => sendRequestGET("/refresh", null, sessionIdCookieHeader(session_id)),
     },
 
     user: {
         getFromId: (user_id = "") => sendRequestGET(`/user/id/${user_id}`),
-        getFromSession: (session_id = "") => sendRequestGET(`/user/session/${session_id}`),
-        updateUsername: (username, session_id) => sendRequestPUT("/user/username", { username }, sessionIdCookie(session_id)),
+        me: (session_id = "") => sendRequestGET("/user/me", null, sessionIdCookieHeader(session_id)),
+        updateUsername: (username, session_id = "") => sendRequestPUT("/user/username", { username }, sessionIdCookieHeader(session_id)),
 
         picture: {
             profile: {
-                get: (user_id = "") => rawFetch(API_URL + `/user/picture/profile/${user_id}`).then((res) => res.blob()),
-                update: (file, roundBorder, session_id) =>
-                    sendRequestPUT("/user/picture/profile", { file, roundBorder }, sessionIdCookie(session_id)),
-                delete: (roundBorder, session_id) => sendRequestDELETE("/user/picture/profile", { roundBorder }, sessionIdCookie(session_id)),
+                border: (roundBorder, session_id = "") =>
+                    sendRequestPOST("/user/picture/profile/border", { roundBorder }, sessionIdCookieHeader(session_id)),
+                get: (user_id = "") => rawFetch(`/user/picture/profile/${user_id}`).then((res) => res.blob()),
+                update: (file, roundBorder, session_id = "") =>
+                    apiFetch(`/user/picture/profile?roundBorder=${roundBorder ?? ""}`, {
+                        method: "POST",
+                        ...sessionIdCookieHeader(session_id),
+                        body: createFormData({ file }),
+                    }),
+                delete: (roundBorder, session_id) => sendRequestDELETE("/user/picture/profile", { roundBorder }, sessionIdCookieHeader(session_id)),
             },
         },
     },

@@ -4,6 +4,8 @@ import ROLES from "./shared/roles.json";
 let API_ORIGIN;
 let API_URL;
 
+const env = "web";
+
 function setApiOrigin(origin = DEFAULT_ORIGIN) {
     try {
         new URL(origin);
@@ -14,20 +16,19 @@ function setApiOrigin(origin = DEFAULT_ORIGIN) {
     API_URL = API_ORIGIN + API_PATH;
 }
 
-setApiOrigin(API_ORIGIN);
+setApiOrigin();
 
-async function rawFetch(url, options = {}) {
-    return fetch(url, {
+async function rawFetch(endpoint, options = {}) {
+    return fetch(API_URL + endpoint, {
         ...options,
-        credentials: "include",
+        headers: {
+            ...options?.headers,
+            cookie: document.cookie ? `${document.cookie}; env=${env}` : `env=${env}`,
+        },
     });
 }
 
 async function apiFetch(url, options) {
-    // return rawFetch(url, options).then((res) => {
-    //     if (res.status === 200) return res.json();
-    //     else return { result: false, error: res.statusText };
-    // });
     return rawFetch(url, options)
         .then((res) => {
             switch (res.status) {
@@ -39,37 +40,60 @@ async function apiFetch(url, options) {
         .catch((e) => ({ result: false, error: e.message }));
 }
 
-async function sendRequestGET(endPoint, data) {
-    const url = new URL(API_URL + endPoint);
-    if (data) Object.entries(data).forEach(([key, value = ""]) => url.searchParams.append(key, value));
-    return apiFetch(url);
+async function sendRequestGET(endPoint, data, options = {}) {
+    const params = new URLSearchParams();
+    if (data) {
+        Object.entries(data).forEach(([key, value = ""]) => params.append(key, value));
+    }
+    return apiFetch(`${endPoint}?${params.toString()}`, options);
+}
+
+async function sendRequestPOST(endPoint, data, options = {}) {
+    return apiFetch(endPoint, {
+        ...options,
+        method: "POST",
+
+        // set x-www-form-urlencoded
+        headers: {
+            ...options?.headers,
+            "Content-Type": data ? "application/json" : "",
+        },
+        body: JSON.stringify(data),
+    });
+}
+
+async function sendRequestPUT(endPoint, data, options = {}) {
+    return apiFetch(endPoint, {
+        ...options,
+        method: "PUT",
+
+        // set x-www-form-urlencoded
+        headers: {
+            ...options?.headers,
+            "Content-Type": data ? "application/json" : "",
+        },
+        body: JSON.stringify(data),
+    });
+}
+
+async function sendRequestDELETE(endPoint, data, options = {}) {
+    return apiFetch(endPoint, {
+        ...options,
+        method: "DELETE",
+
+        // set x-www-form-urlencoded
+        headers: {
+            ...options?.headers,
+            "Content-Type": data ? "application/json" : "",
+        },
+        body: JSON.stringify(data),
+    });
 }
 
 function createFormData(data = {}) {
     const formData = new FormData();
     Object.entries(data).forEach(([key, value = ""]) => formData.append(key, value));
     return formData;
-}
-
-async function sendRequestPOST(endPoint, data) {
-    return apiFetch(API_URL + endPoint, {
-        method: "POST",
-        body: createFormData(data),
-    });
-}
-
-async function sendRequestPUT(endPoint, data) {
-    return apiFetch(API_URL + endPoint, {
-        method: "PUT",
-        body: createFormData(data),
-    });
-}
-
-async function sendRequestDELETE(endPoint, data) {
-    return apiFetch(API_URL + endPoint, {
-        method: "DELETE",
-        body: createFormData(data),
-    });
 }
 
 export default {
@@ -91,13 +115,18 @@ export default {
 
     user: {
         getFromId: (user_id = "") => sendRequestGET(`/user/id/${user_id}`),
-        getFromSession: (session_id = "") => sendRequestGET(`/user/session/${session_id}`),
+        me: () => sendRequestGET("/user/me"),
         updateUsername: (username) => sendRequestPUT("/user/username", { username }),
 
         picture: {
             profile: {
+                border: (roundBorder) => sendRequestGET("/user/picture/profile/border", { roundBorder }),
                 get: (user_id = "") => rawFetch(API_URL + `/user/picture/profile/${user_id}`).then((res) => res.blob()),
-                update: (file, roundBorder) => sendRequestPUT("/user/picture/profile", { file, roundBorder }),
+                update: (file, roundBorder) =>
+                    apiFetch(`/user/picture/profile?roundBorder=${roundBorder ?? ""}`, {
+                        method: "POST",
+                        body: createFormData({ file }),
+                    }),
                 delete: (roundBorder) => sendRequestDELETE("/user/picture/profile", { roundBorder }),
             },
         },

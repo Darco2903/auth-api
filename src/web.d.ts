@@ -6,7 +6,7 @@ const AuthAPI: {
 
     auth(): Promise<Response.Auth>;
 
-    login(identifier: string, password: string): Promise<Response.Login>;
+    login(identifier: string, password: string): Promise<Response.LoginWeb>;
 
     logout(): Promise<Response.Logout>;
 
@@ -23,9 +23,9 @@ const AuthAPI: {
     };
 
     user: {
-        getFromId(client_id: string): Promise<Response.User>;
+        getFromId(client_id: string): Promise<Response.UserFromId>;
 
-        getFromSession(session_id: string): Promise<Response.User>;
+        me(): Promise<Response.User>;
 
         updateUsername(username: string): Promise<Response.UserUpdateUsername>;
 

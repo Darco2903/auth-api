@@ -6,7 +6,7 @@ const AuthAPI: {
 
     auth(session_id: string): Promise<Response.Auth>;
 
-    login(identifier: string, password: string): Promise<Response.Login>;
+    login(identifier: string, password: string): Promise<Response.LoginNode>;
 
     logout(session_id: string): Promise<Response.Logout>;
 
@@ -23,14 +23,16 @@ const AuthAPI: {
     };
 
     user: {
-        getFromId(client_id: string): Promise<Response.User>;
+        getFromId(client_id: string): Promise<Response.UserFromId>;
 
-        getFromSession(session_id: string): Promise<Response.User>;
+        me(session_id: string): Promise<Response.User>;
 
         updateUsername(username: string, session_id: string): Promise<Response.UserUpdateUsername>;
 
         picture: {
             profile: {
+                border(roundBorder: boolean, session_id: string): Promise<Response.UserPictureUpdateBorder>;
+
                 get(client_id: string): Promise<Response.UserPictureProfileGet>;
 
                 update(image: Blob, roundBorder?: boolean, session_id: string): Promise<Response.UserPictureProfileUpdate>;

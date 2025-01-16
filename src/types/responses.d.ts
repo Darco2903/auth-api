@@ -8,25 +8,30 @@ export type Base = {
 
 export type Auth = Base;
 
-export type Login = Base & {
-    session_id?: string;
+export type LoginWeb = Base & {
     error?: Error.Login;
 };
 
-export type Logout = Base;
+export type LoginNode = LoginWeb & {
+    session_id: string;
+};
+
+export type Logout = Base & {
+    error?: Error.Logout;
+};
 
 export type HasPermission = Base & {
     // error?: Error.Auth | Error.LevelRequired;
-    error?: Error.LevelRequired;
+    error?: Error.HasPermission;
 };
 
 export type Permission = Base & {
     level: number;
-    error?: Error.SessionId;
+    error?: Error.Permission;
 };
 
 export type Refresh = Base & {
-    error?: Error.SessionId | Error.NotFound;
+    error?: Error.Refresh;
 };
 
 export type Session = Base & {
@@ -34,12 +39,22 @@ export type Session = Base & {
     error?: Error.SessionId;
 };
 
+export type UserFromId = Base & {
+    user?: Type.UserPublic;
+    error?: Error.UserFromId;
+};
+
 export type User = Base & {
     user?: Type.User;
+    error?: Error.User;
+};
+
+export type UserPictureUpdateBorder = Base & {
+    error?: Error.UserPictureUpdateBorder;
 };
 
 export type UserPictureProfileDelete = Base & {
-    error?: Error.Auth;
+    error?: Error.UserPictureProfileDelete;
 };
 
 export type UserPictureProfileGet = Blob;
