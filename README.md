@@ -40,8 +40,9 @@ That's it! You can now use the API.
 | `session.get`                 | Get the session of a user.        |
 | `session.refresh`             | Refresh a user session.           |
 | `user.getFromId`              | Get a user from an ID.            |
-| `user.getFromSession`         | Get a user from a session.        |
+| `user.me`                     | Get the current user.             |
 | `user.updateUsername`         | Update a user's username.         |
+| `user.picture.profile.border` | Update a user's profile border.   |
 | `user.picture.profile.get`    | Get a user's profile picture.     |
 | `user.picture.profile.update` | Update a user's profile picture.  |
 | `user.picture.profile.delete` | Delete a user's profile picture.  |
