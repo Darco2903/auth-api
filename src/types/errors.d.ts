@@ -22,7 +22,7 @@ export type UserFromId = Base | "MISSING_PUBLIC_ID";
 
 export type User = Base | SessionId;
 
-export type UserPictureUpdateBorder = Base | SessionId | "MISSING_BORDER";
+export type UserPictureUpdateBorder = Base | SessionId | "MISSING_BORDER" | "INVALID_BORDER";
 
 export type UserPictureProfileDelete = Base | SessionId;
 

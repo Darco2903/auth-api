@@ -23,7 +23,7 @@ async function rawFetch(endpoint, options = {}) {
         ...options,
         headers: {
             ...options?.headers,
-            cookie: options?.headers?.cookie ? `${options.headers.cookie}; env=${env}` : `env=${env}`,
+            cookie: options?.headers?.cookie ? `${options.headers.cookie};env=${env}` : `env=${env}`,
         },
     });
 }
@@ -45,7 +45,8 @@ async function sendRequestGET(endPoint, data, options = {}) {
     if (data) {
         Object.entries(data).forEach(([key, value = ""]) => params.append(key, value));
     }
-    return apiFetch(`${endPoint}?${params.toString()}`, options);
+    const path = params.size ? `${endPoint}?${params.toString()}` : endPoint;
+    return apiFetch(path, options);
 }
 
 async function sendRequestPOST(endPoint, data = {}, options = {}) {
@@ -135,13 +136,13 @@ module.exports = {
                 border: (roundBorder, session_id = "") =>
                     sendRequestPOST("/user/picture/profile/border", { roundBorder }, sessionIdCookieHeader(session_id)),
                 get: (user_id = "") => rawFetch(`/user/picture/profile/${user_id}`).then((res) => res.blob()),
-                update: (file, roundBorder, session_id = "") =>
-                    apiFetch(`/user/picture/profile?roundBorder=${roundBorder ?? ""}`, {
+                update: (file, session_id = "") =>
+                    apiFetch("/user/picture/profile", {
                         method: "POST",
                         ...sessionIdCookieHeader(session_id),
                         body: createFormData({ file }),
                     }),
-                delete: (roundBorder, session_id) => sendRequestDELETE("/user/picture/profile", { roundBorder }, sessionIdCookieHeader(session_id)),
+                delete: (session_id) => sendRequestDELETE("/user/picture/profile", null, sessionIdCookieHeader(session_id)),
             },
         },
     },

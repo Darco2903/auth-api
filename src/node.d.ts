@@ -35,9 +35,9 @@ const AuthAPI: {
 
                 get(client_id: string): Promise<Response.UserPictureProfileGet>;
 
-                update(image: Blob, roundBorder?: boolean, session_id: string): Promise<Response.UserPictureProfileUpdate>;
+                update(image: Blob, session_id: string): Promise<Response.UserPictureProfileUpdate>;
 
-                delete(roundBorder?: boolean, session_id: string): Promise<Response.UserPictureProfileDelete>;
+                delete(session_id: string): Promise<Response.UserPictureProfileDelete>;
             };
         };
     };

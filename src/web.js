@@ -19,11 +19,12 @@ function setApiOrigin(origin = DEFAULT_ORIGIN) {
 setApiOrigin();
 
 async function rawFetch(endpoint, options = {}) {
+    document.cookie = "env=web";
     return fetch(API_URL + endpoint, {
         ...options,
+        credentials: "include",
         headers: {
             ...options?.headers,
-            cookie: document.cookie ? `${document.cookie}; env=${env}` : `env=${env}`,
         },
     });
 }
@@ -45,7 +46,8 @@ async function sendRequestGET(endPoint, data, options = {}) {
     if (data) {
         Object.entries(data).forEach(([key, value = ""]) => params.append(key, value));
     }
-    return apiFetch(`${endPoint}?${params.toString()}`, options);
+    const path = params.size ? `${endPoint}?${params.toString()}` : endPoint;
+    return apiFetch(path, options);
 }
 
 async function sendRequestPOST(endPoint, data, options = {}) {
@@ -101,11 +103,11 @@ export default {
 
     auth: () => sendRequestGET("/auth"),
     login: (identifier, password) => sendRequestPOST("/login", { identifier, password }),
-    logout: () => sendRequestGET("/logout"),
+    logout: () => sendRequestPOST("/logout"),
 
     permission: {
-        get: () => sendRequestGET("/permission/"),
-        has: (level) => sendRequestPOST("/permission", { level }),
+        get: () => sendRequestGET("/permission/get"),
+        has: (level) => sendRequestGET("/permission/has", { level }),
     },
 
     session: {
@@ -120,14 +122,14 @@ export default {
 
         picture: {
             profile: {
-                border: (roundBorder) => sendRequestGET("/user/picture/profile/border", { roundBorder }),
-                get: (user_id = "") => rawFetch(API_URL + `/user/picture/profile/${user_id}`).then((res) => res.blob()),
-                update: (file, roundBorder) =>
-                    apiFetch(`/user/picture/profile?roundBorder=${roundBorder ?? ""}`, {
+                border: (roundBorder) => sendRequestPOST("/user/picture/profile/border", { roundBorder }),
+                get: (user_id = "") => rawFetch(`/user/picture/profile/${user_id}`).then((res) => res.blob()),
+                update: (file) =>
+                    apiFetch("/user/picture/profile", {
                         method: "POST",
                         body: createFormData({ file }),
                     }),
-                delete: (roundBorder) => sendRequestDELETE("/user/picture/profile", { roundBorder }),
+                delete: () => sendRequestDELETE("/user/picture/profile"),
             },
         },
     },

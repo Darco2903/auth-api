@@ -31,11 +31,13 @@ const AuthAPI: {
 
         picture: {
             profile: {
+                border(roundBorder: boolean): Promise<Response.UserPictureUpdateBorder>;
+
                 get(client_id: string): Promise<Response.UserPictureProfileGet>;
 
-                update(image: Blob, roundBorder?: boolean): Promise<Response.UserPictureProfileUpdate>;
+                update(image: Blob): Promise<Response.UserPictureProfileUpdate>;
 
-                delete(roundBorder?: boolean): Promise<Response.UserPictureProfileDelete>;
+                delete(): Promise<Response.UserPictureProfileDelete>;
             };
         };
     };
