@@ -15,6 +15,8 @@ const AuthAPI: {
     verify(token: string): Promise<Response.Verify>;
     // verify(verifyToken: string, token: string): Promise<Response.Verify>;
 
+    verifyRequest(email: string, token: string): Promise<Response.VerifyRequest>;
+
     permission: {
         get(): Promise<Response.Permission>;
 

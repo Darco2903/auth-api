@@ -6,11 +6,14 @@ type SessionId = "MISSING_SESSION_ID" | "INVALID_SESSION_ID";
 
 type Turnstile = "TOKEN_INVALID" | "TURNSTILE_INVALID";
 
-type Email = "EMAIL_INVALID" | "EMAIL_TAKEN";
+type Email = "EMAIL_INVALID";
+type EmailUnique = "EMAIL_TAKEN";
 
 type Password = "PASSWORD_INVALID";
 
 type Username = "USERNAME_INVALID";
+
+type VerifToken = "FAILED_TO_CREATE_VERIF_TOKEN" | "FAILED_TO_SEND_VERIF_EMAIL";
 
 export type Auth = Base;
 
@@ -24,15 +27,7 @@ export type Permission = Base;
 
 export type Refresh = Base | SessionId;
 
-export type Register =
-    | Base
-    | Turnstile
-    | Username
-    | Email
-    | Password
-    | "FAILED_TO_CREATE_USER"
-    | "FAILED_TO_CREATE_VERIF_TOKEN"
-    | "FAILED_TO_SEND_VERIF_EMAIL";
+export type Register = Base | Turnstile | Username | EmailUnique | Password | VerifToken | "FAILED_TO_CREATE_USER";
 
 export type UserFromId = Base | "MISSING_PUBLIC_ID";
 
@@ -44,8 +39,12 @@ export type UserPictureProfileDelete = Base | SessionId;
 
 export type UserPictureProfileUpdate = Base | Auth | "IMAGE_REQUIRED" | "IMAGE_DIMENSIONS_TOO_LARGE" | "FILE_TOO_LARGE" | "UNSUPPORTED_FILE_TYPE";
 
-export type UserUpdateEmail = Base | SessionId | Turnstile | Email;
+export type UserUpdateEmail = Base | SessionId | Turnstile | EmailUnique;
 
 export type UserUpdatePassword = Base | SessionId | Turnstile | Password;
 
 export type UserUpdateUsername = Base | SessionId | Turnstile | Username;
+
+export type Verify = Base | Turnstile;
+
+export type VerifyRequest = Base | Email | VerifToken | "EMAIL_VERIF_WAIT";

@@ -122,6 +122,7 @@ export default {
     register: (username, email, password, token) => sendRequestPOST("/register", { username, email, password, token }),
 
     verify: (verifToken, token) => sendRequestPOST("/verify", { verifToken, token }),
+    verifyRequest: (email, token) => sendRequestPOST("/verify-request", { email, token }),
 
     permission: {
         get: () => sendRequestGET("/permission/get"),

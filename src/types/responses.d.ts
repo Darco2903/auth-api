@@ -82,3 +82,8 @@ export type UserUpdateUsername = Base & {
 export type Verify = Base & {
     error?: Error.Verify;
 };
+
+export type VerifyRequest = Base & {
+    error?: Error.VerifyRequest;
+    time_remaining?: number;
+};
