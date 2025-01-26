@@ -6,9 +6,14 @@ const AuthAPI: {
 
     auth(session_id: string): Promise<Response.Auth>;
 
-    login(identifier: string, password: string): Promise<Response.LoginNode>;
+    login(identifier: string, password: string, token: string): Promise<Response.LoginNode>;
 
     logout(session_id: string): Promise<Response.Logout>;
+
+    register(username: string, email: string, password: string, token: string): Promise<Response.Register>;
+
+    verify(token: string): Promise<Response.Verify>;
+    // verify(verifyToken: string, token: string): Promise<Response.Verify>;
 
     permission: {
         get(session_id: string): Promise<Response.Permission>;
@@ -27,7 +32,11 @@ const AuthAPI: {
 
         me(session_id: string): Promise<Response.User>;
 
-        updateUsername(username: string, session_id: string): Promise<Response.UserUpdateUsername>;
+        updateEmail(email: string, token: string, session_id: string): Promise<Response.UserUpdateEmail>;
+
+        updatePassword(password: string, token: string, session_id: string): Promise<Response.UserUpdatePassword>;
+
+        updateUsername(username: string, token: string, session_id: string): Promise<Response.UserUpdateUsername>;
 
         picture: {
             profile: {

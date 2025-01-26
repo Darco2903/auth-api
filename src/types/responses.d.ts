@@ -34,6 +34,10 @@ export type Refresh = Base & {
     error?: Error.Refresh;
 };
 
+export type Register = Base & {
+    error?: Error.Register;
+};
+
 export type Session = Base & {
     session: Type.Session;
     error?: Error.SessionId;
@@ -63,6 +67,18 @@ export type UserPictureProfileUpdate = Base & {
     error?: Error.UserPictureProfileUpdate;
 };
 
+export type UserUpdateEmail = Base & {
+    error?: Error.UserUpdateEmail;
+};
+
+export type UserUpdatePassword = Base & {
+    error?: Error.UserUpdatePassword;
+};
+
 export type UserUpdateUsername = Base & {
     error?: Error.UserUpdateUsername;
+};
+
+export type Verify = Base & {
+    error?: Error.Verify;
 };

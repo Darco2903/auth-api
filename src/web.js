@@ -78,6 +78,20 @@ async function sendRequestPUT(endPoint, data, options = {}) {
     });
 }
 
+async function sendRequestPATCH(endPoint, data, options = {}) {
+    return apiFetch(endPoint, {
+        ...options,
+        method: "PATCH",
+
+        // set x-www-form-urlencoded
+        headers: {
+            ...options?.headers,
+            "Content-Type": data ? "application/json" : "",
+        },
+        body: JSON.stringify(data),
+    });
+}
+
 async function sendRequestDELETE(endPoint, data, options = {}) {
     return apiFetch(endPoint, {
         ...options,
@@ -102,8 +116,12 @@ export default {
     ROLES,
 
     auth: () => sendRequestGET("/auth"),
-    login: (identifier, password) => sendRequestPOST("/login", { identifier, password }),
+
+    login: (identifier, password, token) => sendRequestPOST("/login", { identifier, password, token }),
     logout: () => sendRequestPOST("/logout"),
+    register: (username, email, password, token) => sendRequestPOST("/register", { username, email, password, token }),
+
+    verify: (verifToken, token) => sendRequestPOST("/verify", { verifToken, token }),
 
     permission: {
         get: () => sendRequestGET("/permission/get"),
@@ -117,8 +135,12 @@ export default {
 
     user: {
         getFromId: (user_id = "") => sendRequestGET(`/user/id/${user_id}`),
+
         me: () => sendRequestGET("/user/me"),
-        updateUsername: (username) => sendRequestPUT("/user/username", { username }),
+
+        updateEmail: (email, token) => sendRequestPATCH("/user/email", { email, token }),
+        updatePassword: (password, token) => sendRequestPATCH("/user/password", { password, token }),
+        updateUsername: (username, token) => sendRequestPATCH("/user/username", { username, token }),
 
         picture: {
             profile: {

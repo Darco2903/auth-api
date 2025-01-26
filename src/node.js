@@ -77,6 +77,20 @@ async function sendRequestPUT(endPoint, data, options = {}) {
     });
 }
 
+async function sendRequestPATCH(endPoint, data, options = {}) {
+    return apiFetch(endPoint, {
+        ...options,
+        method: "PATCH",
+
+        // set x-www-form-urlencoded
+        headers: {
+            ...options?.headers,
+            "Content-Type": data ? "application/json" : "",
+        },
+        body: JSON.stringify(data),
+    });
+}
+
 async function sendRequestDELETE(endPoint, data, options = {}) {
     return apiFetch(endPoint, {
         ...options,
@@ -113,8 +127,12 @@ module.exports = {
     ROLES,
 
     auth: (session_id) => sendRequestGET("/auth", null, sessionIdCookieHeader(session_id)),
-    login: (identifier, password) => sendRequestPOST("/login", { identifier, password }),
+
+    login: (identifier, password, token) => sendRequestPOST("/login", { identifier, password, token }),
     logout: (session_id = "") => sendRequestPOST("/logout", null, sessionIdCookieHeader(session_id)),
+    register: (username, email, password, token) => sendRequestPOST("/register", { username, email, password, token }),
+
+    verify: (verifToken, token) => sendRequestPOST("/verify", { verifToken, token }),
 
     permission: {
         get: (session_id = "") => sendRequestGET("/permission/get", null, sessionIdCookieHeader(session_id)),
@@ -128,8 +146,14 @@ module.exports = {
 
     user: {
         getFromId: (user_id = "") => sendRequestGET(`/user/id/${user_id}`),
+
         me: (session_id = "") => sendRequestGET("/user/me", null, sessionIdCookieHeader(session_id)),
-        updateUsername: (username, session_id = "") => sendRequestPUT("/user/username", { username }, sessionIdCookieHeader(session_id)),
+
+        updateEmail: (email, token, session_id = "") => sendRequestPATCH("/user/email", { email, token }, sessionIdCookieHeader(session_id)),
+        updatePassword: (password, token, session_id = "") =>
+            sendRequestPATCH("/user/password", { password, token }, sessionIdCookieHeader(session_id)),
+        updateUsername: (username, token, session_id = "") =>
+            sendRequestPATCH("/user/username", { username, token }, sessionIdCookieHeader(session_id)),
 
         picture: {
             profile: {

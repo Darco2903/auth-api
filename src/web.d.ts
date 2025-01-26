@@ -6,9 +6,14 @@ const AuthAPI: {
 
     auth(): Promise<Response.Auth>;
 
-    login(identifier: string, password: string): Promise<Response.LoginWeb>;
+    login(identifier: string, password: string, token: string): Promise<Response.LoginWeb>;
 
     logout(): Promise<Response.Logout>;
+
+    register(username: string, email: string, password: string, token: string): Promise<Response.Register>;
+
+    verify(token: string): Promise<Response.Verify>;
+    // verify(verifyToken: string, token: string): Promise<Response.Verify>;
 
     permission: {
         get(): Promise<Response.Permission>;
@@ -27,7 +32,11 @@ const AuthAPI: {
 
         me(): Promise<Response.User>;
 
-        updateUsername(username: string): Promise<Response.UserUpdateUsername>;
+        updateEmail(email: string, token: string): Promise<Response.UserUpdateEmail>;
+
+        updatePassword(password: string, token: string): Promise<Response.UserUpdatePassword>;
+
+        updateUsername(username: string, token: string): Promise<Response.UserUpdateUsername>;
 
         picture: {
             profile: {
