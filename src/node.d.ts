@@ -12,6 +12,8 @@ const AuthAPI: {
 
     register(username: string, email: string, password: string, token: string): Promise<Response.Register>;
 
+    passwordRequest(email: string, token: string): Promise<Response.PasswordRequest>;
+
     verify(token: string): Promise<Response.Verify>;
     // verify(verifyToken: string, token: string): Promise<Response.Verify>;
 

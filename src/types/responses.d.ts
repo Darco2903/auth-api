@@ -79,6 +79,10 @@ export type UserUpdateUsername = Base & {
     error?: Error.UserUpdateUsername;
 };
 
+export type PasswordRequest = Base & {
+    error?: Error.PasswordRequest;
+};
+
 export type Verify = Base & {
     error?: Error.Verify;
 };

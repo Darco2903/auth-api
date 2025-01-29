@@ -45,6 +45,8 @@ export type UserUpdatePassword = Base | SessionId | Turnstile | Password;
 
 export type UserUpdateUsername = Base | SessionId | Turnstile | Username;
 
+export type PasswordRequest = Base | Email | VerifToken | "PASSWORD_RESET_WAIT";
+
 export type Verify = Base | Turnstile;
 
 export type VerifyRequest = Base | Email | VerifToken | "EMAIL_VERIF_WAIT";
