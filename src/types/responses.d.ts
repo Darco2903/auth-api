@@ -83,6 +83,10 @@ export type PasswordRequest = Base & {
     error?: Error.PasswordRequest;
 };
 
+export type PasswordReset = Base & {
+    error?: Error.PasswordReset;
+};
+
 export type Verify = Base & {
     error?: Error.Verify;
 };

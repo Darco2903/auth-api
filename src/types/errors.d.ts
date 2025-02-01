@@ -31,7 +31,7 @@ export type Register = Base | Turnstile | Username | EmailUnique | Password | Ve
 
 export type UserFromId = Base | "MISSING_PUBLIC_ID";
 
-export type User = Base | SessionId;
+export type User = Base | SessionId | "USER_NOT_FOUND";
 
 export type UserPictureUpdateBorder = Base | SessionId | "MISSING_BORDER" | "INVALID_BORDER";
 
@@ -39,13 +39,15 @@ export type UserPictureProfileDelete = Base | SessionId;
 
 export type UserPictureProfileUpdate = Base | Auth | "IMAGE_REQUIRED" | "IMAGE_DIMENSIONS_TOO_LARGE" | "FILE_TOO_LARGE" | "UNSUPPORTED_FILE_TYPE";
 
-export type UserUpdateEmail = Base | SessionId | Turnstile | EmailUnique;
+export type UserUpdateEmail = User | Turnstile | EmailUnique;
 
-export type UserUpdatePassword = Base | SessionId | Turnstile | Password;
+export type UserUpdatePassword = User | Turnstile | Password;
 
-export type UserUpdateUsername = Base | SessionId | Turnstile | Username;
+export type UserUpdateUsername = User | Turnstile | Username;
 
-export type PasswordRequest = Base | Email | VerifToken | "PASSWORD_RESET_WAIT";
+export type PasswordRequest = Base | Turnstile | Email | "PASSWORD_RESET_WAIT";
+
+export type PasswordReset = Base | Turnstile | Password | "PASSWORD_TOKEN_INVALID";
 
 export type Verify = Base | Turnstile;
 

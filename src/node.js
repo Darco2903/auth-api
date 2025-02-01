@@ -132,7 +132,8 @@ module.exports = {
     logout: (session_id = "") => sendRequestPOST("/logout", null, sessionIdCookieHeader(session_id)),
     register: (username, email, password, token) => sendRequestPOST("/register", { username, email, password, token }),
 
-    passwordRequest: (password, token) => sendRequestPOST("/password-request", { password, token }),
+    passwordRequest: (email, token) => sendRequestPOST("/password-request", { email, token }),
+    passwordReset: (password, passwordToken, token) => sendRequestPOST("/password-reset", { password, passwordToken, token }),
 
     verify: (verifToken, token) => sendRequestPOST("/verify", { verifToken, token }),
     verifyRequest: (email, token) => sendRequestPOST("/verify-request", { email, token }),
