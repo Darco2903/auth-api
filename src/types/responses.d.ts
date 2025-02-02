@@ -40,7 +40,7 @@ export type Register = Base & {
 
 export type Session = Base & {
     session: Type.Session;
-    error?: Error.SessionId;
+    error?: Error.Session;
 };
 
 export type UserFromId = Base & {
