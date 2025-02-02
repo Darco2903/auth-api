@@ -37,11 +37,11 @@ const AuthAPI: {
 
         me(session_id: string): Promise<Response.User>;
 
-        updateEmail(email: string, token: string, session_id: string): Promise<Response.UserUpdateEmail>;
+        updateEmail(email: string, session_id: string, token: string): Promise<Response.UserUpdateEmail>;
 
-        updatePassword(password: string, token: string, session_id: string): Promise<Response.UserUpdatePassword>;
+        updatePassword(password: string, session_id: string, token: string): Promise<Response.UserUpdatePassword>;
 
-        updateUsername(username: string, token: string, session_id: string): Promise<Response.UserUpdateUsername>;
+        updateUsername(username: string, session_id: string, token: string): Promise<Response.UserUpdateUsername>;
 
         picture: {
             profile: {

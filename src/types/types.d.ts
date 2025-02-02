@@ -1,9 +1,3 @@
-export type UserPublic = {
-    name: string;
-    public_id: string;
-    round_border: boolean;
-};
-
 type Role = {
     description: string;
     // id: number;
@@ -11,14 +5,24 @@ type Role = {
     name: string;
 };
 
-export type User = UserPublic & {
-    created_at: string;
-    email: string;
-    // id: number;
-    last_login: string;
+export type UserPublic = {
+    public_id: string;
+    name: string;
     profile_picture: string;
+    round_border: boolean;
+};
+
+export type User = UserPublic & {
+    // id: number;
     role: Role;
+    email: string;
+    // password_hash: string;
+    verified: boolean;
+    last_login: string;
+    created_at: string;
     updated_at: string;
+    email_verif: string;
+    password_reset: string;
 };
 
 export type Session = {

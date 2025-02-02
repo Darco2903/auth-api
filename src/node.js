@@ -153,10 +153,10 @@ module.exports = {
 
         me: (session_id = "") => sendRequestGET("/user/me", null, sessionIdCookieHeader(session_id)),
 
-        updateEmail: (email, token, session_id = "") => sendRequestPATCH("/user/email", { email, token }, sessionIdCookieHeader(session_id)),
-        updatePassword: (password, token, session_id = "") =>
+        updateEmail: (email, session_id = "", token) => sendRequestPATCH("/user/email", { email, token }, sessionIdCookieHeader(session_id)),
+        updatePassword: (password, session_id = "", token) =>
             sendRequestPATCH("/user/password", { password, token }, sessionIdCookieHeader(session_id)),
-        updateUsername: (username, token, session_id = "") =>
+        updateUsername: (username, session_id = "", token) =>
             sendRequestPATCH("/user/username", { username, token }, sessionIdCookieHeader(session_id)),
 
         picture: {

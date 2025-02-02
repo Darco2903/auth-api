@@ -12,6 +12,8 @@ type EmailUnique = "EMAIL_TAKEN";
 
 type Password = "PASSWORD_INVALID";
 
+type PublicId = "INVALID_PUBLIC_ID";
+
 type Username = "USERNAME_INVALID";
 
 type VerifTokenReq = "FAILED_TO_CREATE_VERIF_TOKEN" | "FAILED_TO_SEND_VERIF_EMAIL";
@@ -32,7 +34,7 @@ export type Register = Base | Turnstile | Username | Email | EmailUnique | Passw
 
 export type Session = Base | SessionId;
 
-export type UserFromId = Base | "MISSING_PUBLIC_ID";
+export type UserFromId = Base | PublicId;
 
 export type User = Base | SessionId | "USER_NOT_FOUND";
 
@@ -42,7 +44,7 @@ export type UserPictureProfileDelete = Base | SessionId;
 
 export type UserPictureProfileUpdate = Base | Auth | "IMAGE_REQUIRED" | "IMAGE_DIMENSIONS_TOO_LARGE" | "FILE_TOO_LARGE" | "UNSUPPORTED_FILE_TYPE";
 
-export type UserUpdateEmail = User | Turnstile | EmailUnique;
+export type UserUpdateEmail = User | Turnstile | Email | EmailUnique;
 
 export type UserUpdatePassword = User | Turnstile | Password;
 
