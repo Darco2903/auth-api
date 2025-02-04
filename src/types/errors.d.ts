@@ -38,11 +38,17 @@ export type UserFromId = Base | PublicId;
 
 export type User = Base | SessionId | "USER_NOT_FOUND";
 
-export type UserPictureUpdateBorder = Base | SessionId | "MISSING_BORDER" | "INVALID_BORDER";
+export type UserPictureUpdateBorder = Base | SessionId | "INVALID_BORDER";
 
 export type UserPictureProfileDelete = Base | SessionId;
 
-export type UserPictureProfileUpdate = Base | Auth | "IMAGE_REQUIRED" | "IMAGE_DIMENSIONS_TOO_LARGE" | "FILE_TOO_LARGE" | "UNSUPPORTED_FILE_TYPE";
+export type UserPictureProfileUpdate =
+    | Base
+    | SessionId
+    | "IMAGE_REQUIRED"
+    | "IMAGE_DIMENSIONS_TOO_LARGE"
+    | "FILE_TOO_LARGE"
+    | "UNSUPPORTED_FILE_TYPE";
 
 export type UserUpdateEmail = User | Turnstile | Email | EmailUnique;
 

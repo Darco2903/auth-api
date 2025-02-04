@@ -9,7 +9,7 @@ This API is used to authenticate users on **Darco2903** platforms.
 ### Installation
 
 ```bash
-npm install ./auth-api-x.x.x.tgz
+npm install ./auth-api-<version>.tgz
 ```
 
 ### Usage
