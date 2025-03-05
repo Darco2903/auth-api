@@ -55,6 +55,8 @@ const AuthAPI: {
             };
         };
     };
+
+    setApiOrigin(origin: string): void;
 };
 
 export * as Errors from "./types/errors";

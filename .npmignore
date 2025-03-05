@@ -1,6 +1,8 @@
 # dev
 .vscode/
 .gitattributes
+*_.*
+*_
 tests/
 temp_/
 TODO.md
