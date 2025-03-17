@@ -1,8 +1,9 @@
 import * as Response from "./types/responses";
-import { ROLES } from "./types/roles";
+import { LEVELS, ROLES } from "./types/roles";
 
 const AuthAPI: {
     ROLES: ROLES;
+    LEVELS: LEVELS;
 
     auth(session_id: string): Promise<Response.Auth>;
 

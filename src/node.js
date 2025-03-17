@@ -1,5 +1,6 @@
 const { DEFAULT_ORIGIN, API_PATH } = require("../config.json");
 const ROLES = require("./shared/roles.json");
+const LEVELS = require("./shared/levels.json");
 
 let API_ORIGIN;
 let API_URL;
@@ -125,6 +126,7 @@ function sessionIdCookieHeader(session_id) {
 
 module.exports = {
     ROLES,
+    LEVELS,
 
     auth: (session_id) => sendRequestGET("/auth", null, sessionIdCookieHeader(session_id)),
 

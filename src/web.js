@@ -1,5 +1,6 @@
 import { DEFAULT_ORIGIN, API_PATH } from "../config.json";
 import ROLES from "./shared/roles.json";
+import LEVELS from "./shared/levels.json";
 
 let API_ORIGIN;
 let API_URL;
@@ -114,6 +115,7 @@ function createFormData(data = {}) {
 
 export default {
     ROLES,
+    LEVELS,
 
     auth: () => sendRequestGET("/auth"),
 
