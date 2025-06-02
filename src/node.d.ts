@@ -50,6 +50,8 @@ const AuthAPI: {
 
                 get(client_id: string): Promise<Response.UserPictureProfileGet>;
 
+                directLink(client_id: string): string;
+
                 update(image: Blob, session_id: string): Promise<Response.UserPictureProfileUpdate>;
 
                 delete(session_id: string): Promise<Response.UserPictureProfileDelete>;

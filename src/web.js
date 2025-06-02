@@ -152,6 +152,7 @@ export default {
             profile: {
                 border: (roundBorder) => sendRequestPOST("/user/picture/profile/border", { roundBorder }),
                 get: (user_id = "") => rawFetch(`/user/picture/profile/${user_id}`).then((res) => res.blob()),
+                directLink: (user_id = "") => `${API_URL}/user/picture/profile/${user_id}`,
                 update: (file) =>
                     apiFetch("/user/picture/profile", {
                         method: "POST",

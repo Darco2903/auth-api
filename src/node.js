@@ -155,7 +155,8 @@ module.exports = {
 
         me: (session_id = "") => sendRequestGET("/user/me", null, sessionIdCookieHeader(session_id)),
 
-        updateEmail: (email, session_id = "", token) => sendRequestPATCH("/user/email", { email, token }, sessionIdCookieHeader(session_id)),
+        updateEmail: (email, session_id = "", token) =>
+            sendRequestPATCH("/user/email", { email, token }, sessionIdCookieHeader(session_id)),
         updatePassword: (password, session_id = "", token) =>
             sendRequestPATCH("/user/password", { password, token }, sessionIdCookieHeader(session_id)),
         updateUsername: (username, session_id = "", token) =>
@@ -166,6 +167,7 @@ module.exports = {
                 border: (roundBorder, session_id = "") =>
                     sendRequestPOST("/user/picture/profile/border", { roundBorder }, sessionIdCookieHeader(session_id)),
                 get: (user_id = "") => rawFetch(`/user/picture/profile/${user_id}`).then((res) => res.blob()),
+                directLink: (user_id = "") => `${API_URL}/user/picture/profile/${user_id}`,
                 update: (file, session_id = "") =>
                     apiFetch("/user/picture/profile", {
                         method: "POST",
