@@ -2,4 +2,5 @@
 -   [x] cross module (node / browser)
 -   [x] remove `session_id` from `hasPermission` **web** (check server side)
 -   [x] add logout method
--   [ ] add register method
+-   [x] add register method
+-   [ ] add profile picture fetch method
