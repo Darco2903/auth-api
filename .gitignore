@@ -1,7 +1,12 @@
+# dev
 node_modules/
 .vscode/
 *_.*
 *_
+
+# build
+dist/
+openapi.json
 
 # tarballs
 auth-api-*.tgz

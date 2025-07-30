@@ -1,16 +1,28 @@
 {
     "name": "auth-api",
     "version": "1.4.0",
-    "author": "Darco2903",
     "description": "",
-    "private": true,
+    "main": "dist/index.js",
+    "type": "module",
     "keywords": [],
+    "author": "",
     "license": "ISC",
-    "type": "commonjs",
-    "main": "./src/node.js",
-    "module": "./src/web.js",
-    "exports": {
-        "require": "./src/node.js",
-        "import": "./src/web.js"
+    "packageManager": "pnpm@10.12.4",
+    "scripts": {
+        "dev": "tsx src/index.ts",
+        "build": "tsc",
+        "start": "node .",
+        "generate-openapi": "tsx tools/generate-openapi.ts"
+    },
+    "dependencies": {
+        "@ts-rest/core": "^3.52.1",
+        "@ts-rest/open-api": "^3.52.1",
+        "zod": "^3.22.3"
+    },
+    "devDependencies": {
+        "@types/node": "^24.1.0",
+        "prettier": "^3.6.2",
+        "tsx": "^4.20.3",
+        "typescript": "^5.8.3"
     }
 }

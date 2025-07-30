@@ -1,9 +1,0 @@
-{
-    "-1": "BANNED",
-    "10": "NEWBIE",
-    "50": "USER",
-    "100": "MODERATOR",
-    "150": "ADMIN",
-    "200": "SUPER_ADMIN",
-    "250": "DEVELOPER"
-}
