@@ -1,6 +1,6 @@
 import { initContract } from "@ts-rest/core";
 import { z } from "zod";
-import { apiError, apiSuccess, userIdSchema } from "../types";
+import { apiError, apiSuccess, userIdSchema } from "../types.js";
 
 const c = initContract();
 

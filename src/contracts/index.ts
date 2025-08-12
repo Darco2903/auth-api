@@ -1,18 +1,23 @@
 import { initContract } from "@ts-rest/core";
-import auth from "./auth";
-import permission from "./permission";
-import requests from "./requests";
-import session from "./session";
-import user from "./user";
-import userPictureProfile from "./userPictureProfile";
+import auth from "./auth.js";
+import permission from "./permission.js";
+import requests from "./requests.js";
+import session from "./session.js";
+import user from "./user.js";
+import userPictureProfile from "./userPictureProfile.js";
 
 const c = initContract();
 
-export default c.router({
-    ...auth,
-    ...permission,
-    ...requests,
-    ...session,
-    ...user,
-    ...userPictureProfile,
-});
+export default c.router(
+    {
+        ...auth,
+        ...permission,
+        ...requests,
+        ...session,
+        ...user,
+        ...userPictureProfile,
+    },
+    {
+        pathPrefix: "/api/v2",
+    }
+);

@@ -2,23 +2,11 @@ import { z, ZodType } from "zod";
 
 export const apiSuccess = <T>(schema: ZodType<T>) => schema;
 
-export const apiError = <T = string>(code: ZodType<T>, error: ZodType<T>) =>
+export const apiError = <T, U>(code: ZodType<T>, error: ZodType<U>) =>
     z.object({
         code,
         error,
     });
-
-// export const apiSuccess = <T>(schema: ZodType<T>) =>
-//     z.object({
-//         success: z.literal(true),
-//         data: schema,
-//     });
-
-// export const apiError = <T = string>(schema: ZodType<T>) =>
-//     z.object({
-//         success: z.literal(false),
-//         error: schema,
-//     });
 
 export const tokenSchema = z.string().min(1, "Token is required");
 export const userIdSchema = z.string().min(1, "User ID is required");

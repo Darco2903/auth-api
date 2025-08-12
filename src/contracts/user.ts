@@ -7,7 +7,7 @@ import {
     userIdSchema,
     userPublicSchema,
     userSchema,
-} from "../types";
+} from "../types.js";
 
 const c = initContract();
 

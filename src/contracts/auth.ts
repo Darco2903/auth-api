@@ -1,6 +1,12 @@
 import { initContract } from "@ts-rest/core";
 import { z } from "zod";
-import { apiError, apiSuccess } from "../types";
+import { apiError, apiSuccess } from "../types.js";
+import {
+    emailSchema,
+    passwordSchema,
+    turnstileSchema,
+    usernameSchema,
+} from "../types/creds.js";
 
 const c = initContract();
 
@@ -9,7 +15,8 @@ export default c.router({
         method: "GET",
         path: "/auth",
         responses: {
-            200: apiSuccess(z.void()),
+            200: apiSuccess(z.boolean()),
+            500: apiError(z.literal("INTERNAL_SERVER_ERROR"), z.string()),
         },
     },
 
@@ -17,15 +24,9 @@ export default c.router({
         method: "POST",
         path: "/login",
         body: z.object({
-            identifier: z
-                .string()
-                .min(1, "Identifier is required")
-                .max(255, "Identifier must be less than 255 characters"),
-            password: z
-                .string()
-                .min(8, "Password must be at least 8 characters long")
-                .max(255, "Password must be less than 255 characters"),
-            token: z.string().optional(),
+            email: emailSchema,
+            password: passwordSchema,
+            turnstile: turnstileSchema,
         }),
         responses: {
             200: apiSuccess(
@@ -35,10 +36,17 @@ export default c.router({
                     })
                     .optional()
             ),
-            400: apiError(
-                z.literal("INVALID_SESSION_ID"),
-                z.literal("Invalid session ID")
-            ),
+            400: z.union([
+                apiError(
+                    z.literal("CREDENTIALS_INVALID"),
+                    z.literal("Invalid credentials")
+                ),
+                apiError(
+                    z.literal("INVALID_TURNSTILE"),
+                    z.literal("Invalid Turnstile")
+                ),
+            ]),
+
             401: apiError(
                 z.literal("SESSION_NOT_FOUND"),
                 z.literal("Session not found")
@@ -60,18 +68,20 @@ export default c.router({
         method: "POST",
         path: "/register",
         body: z.object({
-            username: z
-                .string()
-                .min(3, "Username must be at least 3 characters long"),
-            email: z.string().email("Invalid email address"),
-            password: z
-                .string()
-                .min(8, "Password must be at least 8 characters long"),
-            token: z.string().optional(),
+            username: usernameSchema,
+            email: emailSchema,
+            password: passwordSchema,
+            turnstile: turnstileSchema,
         }),
         responses: {
-            201: apiSuccess(z.void()),
-            400: apiError(z.literal("INVALID_REQUEST"), z.string()),
+            200: apiSuccess(z.void()),
+            400: z.union([
+                apiError(
+                    z.literal("INVALID_TURNSTILE"),
+                    z.literal("Invalid Turnstile")
+                ),
+                apiError(z.literal("INVALID_REQUEST"), z.string()),
+            ]),
             409: apiError(z.literal("USER_ALREADY_EXISTS"), z.string()),
             500: apiError(z.literal("INTERNAL_SERVER_ERROR"), z.string()),
         },
