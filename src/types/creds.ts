@@ -5,7 +5,7 @@ import {
     MAX_NAME_LENGTH,
     MIN_NAME_LENGTH,
     MAX_EMAIL_LENGTH,
-} from "../consts";
+} from "../consts.js";
 
 export const emailSchema = z.string().email().max(MAX_EMAIL_LENGTH);
 
@@ -25,3 +25,9 @@ export const usernameSchema = z
     .max(MAX_NAME_LENGTH);
 
 export const turnstileSchema = z.string().nonempty();
+
+export const jwtSchema = z.string().regex(/^Bearer \w+$/);
+
+export const authSchema = z.object({
+    authorization: z.string(),
+});

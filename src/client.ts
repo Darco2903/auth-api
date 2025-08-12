@@ -1,13 +1,13 @@
 import { initClient } from "@ts-rest/core";
-import sessionContract from "./contracts/session";
+import contract from "./contract";
 
-const client = initClient(sessionContract, {
+const client = initClient(contract, {
     baseUrl: "http://localhost:3000",
     baseHeaders: {},
 });
 
 async function fetchSession() {
-    const res = await client.getSession();
+    const res = await client.getPermission();
 
     if (res.status === 200) {
         console.log(res.body);

@@ -2,6 +2,7 @@ import { initContract } from "@ts-rest/core";
 import { z } from "zod";
 import { apiError, apiSuccess } from "../types.js";
 import {
+    authSchema,
     emailSchema,
     passwordSchema,
     turnstileSchema,
@@ -14,6 +15,7 @@ export default c.router({
     auth: {
         method: "GET",
         path: "/auth",
+        headers: authSchema,
         responses: {
             200: apiSuccess(z.boolean()),
             500: apiError(z.literal("INTERNAL_SERVER_ERROR"), z.string()),
@@ -30,11 +32,11 @@ export default c.router({
         }),
         responses: {
             200: apiSuccess(
-                z
-                    .object({
-                        sessionId: z.string(),
-                    })
-                    .optional()
+                z.object({
+                    accessToken: z.string(),
+                    expiresIn: z.number(),
+                    refreshToken: z.string(),
+                })
             ),
             400: z.union([
                 apiError(
@@ -55,10 +57,50 @@ export default c.router({
         },
     },
 
+    refresh: {
+        method: "POST",
+        path: "/refresh",
+        body: z.object({
+            refreshToken: z.string(),
+        }),
+        responses: {
+            200: apiSuccess(
+                z.object({
+                    accessToken: z.string(),
+                    expiresIn: z.number(),
+                    refreshToken: z.string(),
+                })
+            ),
+            400: apiError(z.literal("INVALID_REQUEST"), z.string()),
+            401: apiError(z.literal("UNAUTHORIZED"), z.literal("Unauthorized")),
+            500: apiError(z.literal("INTERNAL_SERVER_ERROR"), z.string()),
+        },
+    },
+
+    refreshToken: {
+        method: "POST",
+        path: "/refresh/token",
+        headers: authSchema,
+        body: z.void(),
+        responses: {
+            200: apiSuccess(
+                z.object({
+                    accessToken: z.string(),
+                    expiresIn: z.number(),
+                })
+            ),
+            400: apiError(z.literal("INVALID_REQUEST"), z.string()),
+            401: apiError(z.literal("UNAUTHORIZED"), z.literal("Unauthorized")),
+            500: apiError(z.literal("INTERNAL_SERVER_ERROR"), z.string()),
+        },
+    },
+
     logout: {
         method: "POST",
         path: "/logout",
-        body: z.void(),
+        body: z.object({
+            refreshToken: z.string(),
+        }),
         responses: {
             200: apiSuccess(z.void()),
         },
