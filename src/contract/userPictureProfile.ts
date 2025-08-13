@@ -25,7 +25,7 @@ export default c.router({
             userId: userIdSchema,
         }),
         responses: {
-            200: apiSuccess(z.instanceof(Buffer)),
+            200: apiSuccess(z.instanceof(Blob)),
         },
     },
 
@@ -43,7 +43,7 @@ export default c.router({
         path: "/user/picture/profile",
         description: "Update user profile picture",
         body: z.object({
-            picture: z.instanceof(Buffer),
+            picture: z.instanceof(Blob),
         }),
         responses: {
             200: apiSuccess(z.void()),

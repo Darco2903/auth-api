@@ -8,16 +8,42 @@ import {
     turnstileSchema,
     usernameSchema,
 } from "../types/creds.js";
+import { tokenDataDecodedSchema } from "../types/Token.js";
 
 const c = initContract();
 
 export default c.router({
     auth: {
-        method: "GET",
-        path: "/auth",
+        method: "POST",
+        path: "/auth/check",
         headers: authSchema,
+        body: z.void(),
         responses: {
-            200: apiSuccess(z.boolean()),
+            200: apiSuccess(
+                z.union([
+                    z.object({
+                        result: z.literal(true),
+                        data: tokenDataDecodedSchema,
+                    }),
+                    z.object({
+                        result: z.literal(false),
+                        data: z.null(),
+                    }),
+                ])
+            ),
+            500: apiError(z.literal("INTERNAL_SERVER_ERROR"), z.string()),
+        },
+    },
+
+    publicKey: {
+        method: "GET",
+        path: "/auth/public-key",
+        responses: {
+            200: apiSuccess(
+                z.object({
+                    publicKey: z.string(),
+                })
+            ),
             500: apiError(z.literal("INTERNAL_SERVER_ERROR"), z.string()),
         },
     },
@@ -60,33 +86,17 @@ export default c.router({
     refresh: {
         method: "POST",
         path: "/refresh",
-        body: z.object({
-            refreshToken: z.string(),
-        }),
+        body: z
+            .object({
+                refreshToken: z.string(),
+            })
+            .optional(),
         responses: {
             200: apiSuccess(
                 z.object({
                     accessToken: z.string(),
                     expiresIn: z.number(),
                     refreshToken: z.string(),
-                })
-            ),
-            400: apiError(z.literal("INVALID_REQUEST"), z.string()),
-            401: apiError(z.literal("UNAUTHORIZED"), z.literal("Unauthorized")),
-            500: apiError(z.literal("INTERNAL_SERVER_ERROR"), z.string()),
-        },
-    },
-
-    refreshToken: {
-        method: "POST",
-        path: "/refresh/token",
-        headers: authSchema,
-        body: z.void(),
-        responses: {
-            200: apiSuccess(
-                z.object({
-                    accessToken: z.string(),
-                    expiresIn: z.number(),
                 })
             ),
             400: apiError(z.literal("INVALID_REQUEST"), z.string()),

@@ -29,5 +29,5 @@ export const turnstileSchema = z.string().nonempty();
 export const jwtSchema = z.string().regex(/^Bearer \w+$/);
 
 export const authSchema = z.object({
-    authorization: z.string(),
+    authorization: z.string().optional(),
 });
