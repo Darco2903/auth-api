@@ -13,7 +13,7 @@ export default c.router({
             roundBorder: z.boolean(),
         }),
         responses: {
-            200: apiSuccess(z.void()),
+            200: apiSuccess(z.null()),
         },
     },
 
@@ -46,7 +46,7 @@ export default c.router({
             picture: z.instanceof(Blob),
         }),
         responses: {
-            200: apiSuccess(z.void()),
+            200: apiSuccess(z.null()),
         },
     },
 
@@ -55,7 +55,7 @@ export default c.router({
         path: "/user/picture/profile",
         description: "Delete user profile picture",
         responses: {
-            200: apiSuccess(z.void()),
+            200: apiSuccess(z.null()),
         },
     },
 });

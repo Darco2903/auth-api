@@ -13,7 +13,7 @@ export default c.router({
             token: z.string().optional(),
         }),
         responses: {
-            200: apiSuccess(z.void()),
+            200: apiSuccess(z.null()),
         },
     },
 
@@ -29,7 +29,7 @@ export default c.router({
             token: z.string().optional(),
         }),
         responses: {
-            200: apiSuccess(z.void()),
+            200: apiSuccess(z.null()),
         },
     },
 
@@ -41,7 +41,7 @@ export default c.router({
             token: z.string().optional(),
         }),
         responses: {
-            200: apiSuccess(z.void()),
+            200: apiSuccess(z.null()),
         },
     },
 
@@ -53,7 +53,7 @@ export default c.router({
             token: z.string().optional(),
         }),
         responses: {
-            200: apiSuccess(z.void()),
+            200: apiSuccess(z.null()),
         },
     },
 });

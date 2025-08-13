@@ -17,7 +17,7 @@ export default c.router({
         method: "POST",
         path: "/auth/check",
         headers: authSchema,
-        body: z.void(),
+        body: z.null(),
         responses: {
             200: apiSuccess(
                 z.union([
@@ -112,7 +112,7 @@ export default c.router({
             refreshToken: z.string(),
         }),
         responses: {
-            200: apiSuccess(z.void()),
+            200: apiSuccess(z.null()),
         },
     },
 
@@ -126,7 +126,7 @@ export default c.router({
             turnstile: turnstileSchema,
         }),
         responses: {
-            200: apiSuccess(z.void()),
+            200: apiSuccess(z.null()),
             400: z.union([
                 apiError(
                     z.literal("INVALID_TURNSTILE"),
