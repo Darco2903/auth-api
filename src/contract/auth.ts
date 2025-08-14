@@ -1,9 +1,11 @@
-import { initContract } from "@ts-rest/core";
+import { initContract, ZodErrorSchema } from "@ts-rest/core";
 import { z } from "zod";
 import { apiError, apiSuccess } from "../types.js";
 import {
     authSchema,
+    emailCredentialSchema,
     emailSchema,
+    passwordCredentialSchema,
     passwordSchema,
     turnstileSchema,
     usernameSchema,
@@ -17,7 +19,7 @@ export default c.router({
         method: "POST",
         path: "/auth/check",
         headers: authSchema,
-        body: z.null(),
+        body: z.undefined(),
         responses: {
             200: apiSuccess(
                 z.union([
@@ -27,11 +29,10 @@ export default c.router({
                     }),
                     z.object({
                         result: z.literal(false),
-                        data: z.null(),
+                        data: z.undefined(),
                     }),
                 ])
             ),
-            500: apiError(z.literal("INTERNAL_SERVER_ERROR"), z.string()),
         },
     },
 
@@ -44,7 +45,6 @@ export default c.router({
                     publicKey: z.string(),
                 })
             ),
-            500: apiError(z.literal("INTERNAL_SERVER_ERROR"), z.string()),
         },
     },
 
@@ -52,8 +52,8 @@ export default c.router({
         method: "POST",
         path: "/login",
         body: z.object({
-            email: emailSchema,
-            password: passwordSchema,
+            email: emailCredentialSchema,
+            password: passwordCredentialSchema,
             turnstile: turnstileSchema,
         }),
         responses: {
@@ -67,18 +67,14 @@ export default c.router({
             400: z.union([
                 apiError(
                     z.literal("CREDENTIALS_INVALID"),
-                    z.literal("Invalid credentials")
+                    z.literal("Invalid Credentials")
                 ),
                 apiError(
                     z.literal("INVALID_TURNSTILE"),
                     z.literal("Invalid Turnstile")
                 ),
+                ZodErrorSchema,
             ]),
-
-            401: apiError(
-                z.literal("SESSION_NOT_FOUND"),
-                z.literal("Session not found")
-            ),
             500: apiError(z.literal("INTERNAL_SERVER_ERROR"), z.string()),
         },
     },
@@ -99,7 +95,13 @@ export default c.router({
                     refreshToken: z.string(),
                 })
             ),
-            400: apiError(z.literal("INVALID_REQUEST"), z.string()),
+            400: z.union([
+                apiError(
+                    z.literal("INVALID_REQUEST"),
+                    z.literal("Missing refresh token")
+                ),
+                ZodErrorSchema,
+            ]),
             401: apiError(z.literal("UNAUTHORIZED"), z.literal("Unauthorized")),
             500: apiError(z.literal("INTERNAL_SERVER_ERROR"), z.string()),
         },
@@ -108,11 +110,13 @@ export default c.router({
     logout: {
         method: "POST",
         path: "/logout",
-        body: z.object({
-            refreshToken: z.string(),
-        }),
+        body: z
+            .object({
+                refreshToken: z.string(),
+            })
+            .optional(),
         responses: {
-            200: apiSuccess(z.null()),
+            200: apiSuccess(z.undefined()),
         },
     },
 
@@ -126,15 +130,18 @@ export default c.router({
             turnstile: turnstileSchema,
         }),
         responses: {
-            200: apiSuccess(z.null()),
+            200: apiSuccess(z.undefined()),
             400: z.union([
                 apiError(
                     z.literal("INVALID_TURNSTILE"),
                     z.literal("Invalid Turnstile")
                 ),
-                apiError(z.literal("INVALID_REQUEST"), z.string()),
+                ZodErrorSchema,
             ]),
-            409: apiError(z.literal("USER_ALREADY_EXISTS"), z.string()),
+            409: apiError(
+                z.literal("USER_EXISTS"),
+                z.literal("User with this email already exists")
+            ),
             500: apiError(z.literal("INTERNAL_SERVER_ERROR"), z.string()),
         },
     },
