@@ -1,35 +1,54 @@
-import { initContract } from "@ts-rest/core";
+import { initContract, ZodErrorSchema } from "@ts-rest/core";
 import { z } from "zod";
 import { apiError, apiSuccess } from "../types.js";
+import {
+    emailSchema,
+    passwordSchema,
+    turnstileSchema,
+} from "../types/creds.js";
+import { tokenSchema } from "../types/token.js";
 
 const c = initContract();
 
 export default c.router({
     passwordRequest: {
         method: "POST",
-        path: "/password-request",
+        path: "/password/request",
         body: z.object({
-            email: z.string().email("Invalid email address"),
-            token: z.string().optional(),
+            email: emailSchema,
+            turnstile: turnstileSchema,
         }),
         responses: {
             200: apiSuccess(z.null()),
+            400: ZodErrorSchema,
+            401: apiError(
+                z.literal("INVALID_TURNSTILE"),
+                z.literal("Invalid Turnstile")
+            ),
         },
     },
 
     passwordReset: {
         method: "POST",
-        path: "/password-reset",
+        path: "/password/reset",
         body: z.object({
-            password: z
-                .string()
-                .min(8, "Password must be at least 8 characters long")
-                .max(255, "Password must be less than 255 characters"),
-            passwordToken: z.string(),
-            token: z.string().optional(),
+            password: passwordSchema,
+            token: tokenSchema,
+            turnstile: turnstileSchema,
         }),
         responses: {
             200: apiSuccess(z.null()),
+            400: ZodErrorSchema,
+            401: z.union([
+                apiError(
+                    z.literal("INVALID_TURNSTILE"),
+                    z.literal("Invalid Turnstile")
+                ),
+                apiError(
+                    z.literal("INVALID_TOKEN"),
+                    z.literal("Invalid token")
+                ),
+            ]),
         },
     },
 
@@ -37,23 +56,39 @@ export default c.router({
         method: "POST",
         path: "/verify",
         body: z.object({
-            verifyToken: z.string(),
-            token: z.string().optional(),
+            token: tokenSchema,
+            turnstile: turnstileSchema,
         }),
         responses: {
             200: apiSuccess(z.null()),
+            400: ZodErrorSchema,
+            401: z.union([
+                apiError(
+                    z.literal("INVALID_TURNSTILE"),
+                    z.literal("Invalid Turnstile")
+                ),
+                apiError(
+                    z.literal("INVALID_TOKEN"),
+                    z.literal("Invalid token")
+                ),
+            ]),
         },
     },
 
     verifyRequest: {
         method: "POST",
-        path: "/verify-request",
+        path: "/verify/request",
         body: z.object({
             email: z.string().email("Invalid email address"),
-            token: z.string().optional(),
+            turnstile: turnstileSchema,
         }),
         responses: {
             200: apiSuccess(z.null()),
+            400: ZodErrorSchema,
+            401: apiError(
+                z.literal("INVALID_TURNSTILE"),
+                z.literal("Invalid Turnstile")
+            ),
         },
     },
 });

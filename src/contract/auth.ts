@@ -10,7 +10,7 @@ import {
     turnstileSchema,
     usernameSchema,
 } from "../types/creds.js";
-import { tokenDataDecodedSchema } from "../types/Token.js";
+import { tokenDataDecodedSchema } from "../types/token.js";
 
 const c = initContract();
 
@@ -64,7 +64,8 @@ export default c.router({
                     refreshToken: z.string(),
                 })
             ),
-            400: z.union([
+            400: ZodErrorSchema,
+            401: z.union([
                 apiError(
                     z.literal("CREDENTIALS_INVALID"),
                     z.literal("Invalid Credentials")
@@ -73,7 +74,6 @@ export default c.router({
                     z.literal("INVALID_TURNSTILE"),
                     z.literal("Invalid Turnstile")
                 ),
-                ZodErrorSchema,
             ]),
             500: apiError(z.literal("INTERNAL_SERVER_ERROR"), z.string()),
         },
@@ -131,13 +131,11 @@ export default c.router({
         }),
         responses: {
             200: apiSuccess(z.null()),
-            400: z.union([
-                apiError(
-                    z.literal("INVALID_TURNSTILE"),
-                    z.literal("Invalid Turnstile")
-                ),
-                ZodErrorSchema,
-            ]),
+            400: ZodErrorSchema,
+            401: apiError(
+                z.literal("INVALID_TURNSTILE"),
+                z.literal("Invalid Turnstile")
+            ),
             409: apiError(
                 z.literal("USER_EXISTS"),
                 z.literal("User with this email already exists")

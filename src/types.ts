@@ -1,4 +1,3 @@
-import { ZodErrorSchema } from "@ts-rest/core";
 import { z, ZodType } from "zod";
 
 export const apiSuccess = <T>(schema: ZodType<T>) => schema;
@@ -10,7 +9,6 @@ export const apiError = <T, U>(code: ZodType<T>, error: ZodType<U>) =>
         name: z.literal("APIError"),
     });
 
-export const tokenSchema = z.string().nonempty("Token is required");
 export const userIdSchema = z.string().nonempty("User ID is required");
 
 export const roleSchema = z.object({

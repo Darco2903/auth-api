@@ -3,11 +3,11 @@ import { z } from "zod";
 import {
     apiError,
     apiSuccess,
-    tokenSchema,
     userIdSchema,
     userPublicSchema,
     userSchema,
 } from "../types.js";
+import { tokenSchema } from "../types/token.js";
 
 const c = initContract();
 
