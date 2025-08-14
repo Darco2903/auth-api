@@ -9,6 +9,18 @@ export const apiError = <T, U>(code: ZodType<T>, error: ZodType<U>) =>
         name: z.literal("APIError"),
     });
 
+export const apiErrorData = <T, U, V>(
+    code: ZodType<T>,
+    error: ZodType<U>,
+    data: ZodType<V>
+) =>
+    z.object({
+        code,
+        error,
+        name: z.literal("APIError"),
+        data,
+    });
+
 export const userIdSchema = z.string().nonempty("User ID is required");
 
 export const roleSchema = z.object({

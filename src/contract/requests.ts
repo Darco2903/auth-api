@@ -1,6 +1,6 @@
 import { initContract, ZodErrorSchema } from "@ts-rest/core";
 import { z } from "zod";
-import { apiError, apiSuccess } from "../types.js";
+import { apiError, apiErrorData, apiSuccess } from "../types.js";
 import {
     emailSchema,
     passwordSchema,
@@ -60,7 +60,11 @@ export default c.router({
             turnstile: turnstileSchema,
         }),
         responses: {
-            200: apiSuccess(z.null()),
+            200: apiSuccess(
+                z.object({
+                    email: emailSchema,
+                })
+            ),
             400: ZodErrorSchema,
             401: z.union([
                 apiError(
@@ -89,6 +93,16 @@ export default c.router({
                 z.literal("INVALID_TURNSTILE"),
                 z.literal("Invalid Turnstile")
             ),
+            429: apiErrorData(
+                z.literal("EMAIL_VERIF_WAIT"),
+                z.literal(
+                    "Please wait before requesting a new verification email"
+                ),
+                z.object({
+                    retry_after: z.number().int().min(0),
+                })
+            ),
+            500: apiError(z.literal("INTERNAL_SERVER_ERROR"), z.string()),
         },
     },
 });
