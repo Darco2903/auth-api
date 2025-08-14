@@ -116,7 +116,7 @@ export default c.router({
             })
             .optional(),
         responses: {
-            200: apiSuccess(z.undefined()),
+            200: z.null(),
         },
     },
 
@@ -130,7 +130,7 @@ export default c.router({
             turnstile: turnstileSchema,
         }),
         responses: {
-            200: apiSuccess(z.undefined()),
+            200: apiSuccess(z.null()),
             400: z.union([
                 apiError(
                     z.literal("INVALID_TURNSTILE"),
