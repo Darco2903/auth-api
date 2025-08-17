@@ -1,17 +1,14 @@
 import { initContract, ZodErrorSchema } from "@ts-rest/core";
 import { z } from "zod";
 import { apiError, apiErrorData, apiSuccess } from "../types.js";
-import {
-    emailSchema,
-    passwordSchema,
-    turnstileSchema,
-} from "../types/creds.js";
+import { emailSchema, turnstileSchema } from "../types/creds.js";
 import { tokenSchema } from "../types/token.js";
+import { accessSchema } from "../types/auth.js";
 
 const c = initContract();
 
 export default c.router({
-    passwordRequest: {
+    passwordResetRequest: {
         method: "POST",
         path: "/password/request",
         body: z.object({
@@ -25,6 +22,16 @@ export default c.router({
                 z.literal("INVALID_TURNSTILE"),
                 z.literal("Invalid Turnstile")
             ),
+            429: apiErrorData(
+                z.literal("PASSWORD_RESET_WAIT"),
+                z.literal(
+                    "Please wait before requesting a new password reset email"
+                ),
+                z.object({
+                    retry_after: z.number().int().min(0),
+                })
+            ),
+            500: apiError(z.literal("INTERNAL_SERVER_ERROR"), z.string()),
         },
     },
 
@@ -32,12 +39,11 @@ export default c.router({
         method: "POST",
         path: "/password/reset",
         body: z.object({
-            password: passwordSchema,
             token: tokenSchema,
             turnstile: turnstileSchema,
         }),
         responses: {
-            200: apiSuccess(z.null()),
+            200: apiSuccess(accessSchema),
             400: ZodErrorSchema,
             401: z.union([
                 apiError(
@@ -49,6 +55,33 @@ export default c.router({
                     z.literal("Invalid token")
                 ),
             ]),
+        },
+    },
+
+    verifyRequest: {
+        method: "POST",
+        path: "/verify/request",
+        body: z.object({
+            email: z.string().email("Invalid email address"),
+            turnstile: turnstileSchema,
+        }),
+        responses: {
+            200: apiSuccess(z.null()),
+            400: ZodErrorSchema,
+            401: apiError(
+                z.literal("INVALID_TURNSTILE"),
+                z.literal("Invalid Turnstile")
+            ),
+            429: apiErrorData(
+                z.literal("EMAIL_VERIF_WAIT"),
+                z.literal(
+                    "Please wait before requesting a new verification email"
+                ),
+                z.object({
+                    retry_after: z.number().int().min(0),
+                })
+            ),
+            500: apiError(z.literal("INTERNAL_SERVER_ERROR"), z.string()),
         },
     },
 
@@ -76,33 +109,6 @@ export default c.router({
                     z.literal("Invalid token")
                 ),
             ]),
-            500: apiError(z.literal("INTERNAL_SERVER_ERROR"), z.string()),
-        },
-    },
-
-    verifyRequest: {
-        method: "POST",
-        path: "/verify/request",
-        body: z.object({
-            email: z.string().email("Invalid email address"),
-            turnstile: turnstileSchema,
-        }),
-        responses: {
-            200: apiSuccess(z.null()),
-            400: ZodErrorSchema,
-            401: apiError(
-                z.literal("INVALID_TURNSTILE"),
-                z.literal("Invalid Turnstile")
-            ),
-            429: apiErrorData(
-                z.literal("EMAIL_VERIF_WAIT"),
-                z.literal(
-                    "Please wait before requesting a new verification email"
-                ),
-                z.object({
-                    retry_after: z.number().int().min(0),
-                })
-            ),
             500: apiError(z.literal("INTERNAL_SERVER_ERROR"), z.string()),
         },
     },

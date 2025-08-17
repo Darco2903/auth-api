@@ -1,4 +1,4 @@
-import { initContract } from "@ts-rest/core";
+import { initContract, ZodErrorSchema } from "@ts-rest/core";
 import { z } from "zod";
 import {
     apiError,
@@ -7,7 +7,13 @@ import {
     userPublicSchema,
     userSchema,
 } from "../types.js";
-import { tokenSchema } from "../types/token.js";
+import {
+    authSchema,
+    emailSchema,
+    passwordSchema,
+    turnstileSchema,
+    usernameSchema,
+} from "../types/creds.js";
 
 const c = initContract();
 
@@ -21,6 +27,8 @@ export default c.router({
         }),
         responses: {
             200: apiSuccess(userPublicSchema),
+            400: ZodErrorSchema,
+            500: apiError(z.literal("INTERNAL_SERVER_ERROR"), z.string()),
         },
     },
 
@@ -28,8 +36,11 @@ export default c.router({
         method: "GET",
         path: "/user/me",
         description: "Get current user",
+        headers: authSchema,
         responses: {
             200: apiSuccess(userSchema),
+            401: apiError(z.literal("UNAUTHORIZED"), z.string()),
+            500: apiError(z.literal("INTERNAL_SERVER_ERROR"), z.string()),
         },
     },
 
@@ -37,12 +48,16 @@ export default c.router({
         method: "PATCH",
         path: "/user/email",
         description: "Update email for current user",
+        headers: authSchema,
         body: z.object({
-            email: z.string().email(),
-            token: tokenSchema,
+            email: emailSchema,
+            turnstile: turnstileSchema,
         }),
         responses: {
             200: apiSuccess(userSchema),
+            400: ZodErrorSchema,
+            401: apiError(z.literal("UNAUTHORIZED"), z.string()),
+            500: apiError(z.literal("INTERNAL_SERVER_ERROR"), z.string()),
         },
     },
 
@@ -50,14 +65,16 @@ export default c.router({
         method: "PATCH",
         path: "/user/password",
         description: "Update password for current user",
+        headers: authSchema,
         body: z.object({
-            password: z
-                .string()
-                .min(6, "Password must be at least 6 characters long"),
-            token: tokenSchema,
+            password: passwordSchema,
+            turnstile: turnstileSchema,
         }),
         responses: {
             200: apiSuccess(userSchema),
+            400: ZodErrorSchema,
+            401: apiError(z.literal("UNAUTHORIZED"), z.string()),
+            500: apiError(z.literal("INTERNAL_SERVER_ERROR"), z.string()),
         },
     },
 
@@ -65,14 +82,16 @@ export default c.router({
         method: "PATCH",
         path: "/user/username",
         description: "Update username for current user",
+        headers: authSchema,
         body: z.object({
-            username: z
-                .string()
-                .min(2, "Username must be at least 2 characters long"),
-            token: tokenSchema,
+            username: usernameSchema,
+            turnstile: turnstileSchema,
         }),
         responses: {
             200: apiSuccess(userSchema),
+            400: ZodErrorSchema,
+            401: apiError(z.literal("UNAUTHORIZED"), z.string()),
+            500: apiError(z.literal("INTERNAL_SERVER_ERROR"), z.string()),
         },
     },
 });
