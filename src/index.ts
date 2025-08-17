@@ -1,4 +1,4 @@
 export { default as contract } from "./contract/index.js";
-export * as consts from "./consts.js";
+export * from "./types/index.js";
+export * from "./consts.js";
 export { UserRole } from "./roles.js";
-export type * from "./types/token.js";

@@ -19,3 +19,6 @@ export const userSchema = userPublicSchema.extend({
     email_verif: z.date().nullable(),
     password_reset: z.date().nullable(),
 });
+
+export type UserPublic = z.infer<typeof userPublicSchema>;
+export type User = z.infer<typeof userSchema>;
