@@ -3,7 +3,7 @@ import { z } from "zod";
 import { apiError, apiSuccess } from "../types.js";
 import { userIdSchema, userPublicSchema, userSchema } from "../types/user.js";
 import {
-    authSchema,
+    authHeaderSchema,
     emailSchema,
     passwordSchema,
     usernameSchema,
@@ -31,7 +31,7 @@ export default c.router({
         method: "GET",
         path: "/user/me",
         description: "Get current user",
-        headers: authSchema,
+        headers: authHeaderSchema,
         responses: {
             200: apiSuccess(userSchema),
             401: apiError(z.literal("UNAUTHORIZED"), z.literal("Unauthorized")),
@@ -43,7 +43,7 @@ export default c.router({
         method: "PATCH",
         path: "/user/email",
         description: "Update email for current user",
-        headers: authSchema,
+        headers: authHeaderSchema,
         body: z.object({
             email: emailSchema,
         }),
@@ -59,7 +59,7 @@ export default c.router({
         method: "PATCH",
         path: "/user/password",
         description: "Update password for current user",
-        headers: authSchema,
+        headers: authHeaderSchema,
         body: z.object({
             password: passwordSchema,
             disconnectAll: z.boolean().default(true),
@@ -76,7 +76,7 @@ export default c.router({
         method: "PATCH",
         path: "/user/username",
         description: "Update username for current user",
-        headers: authSchema,
+        headers: authHeaderSchema,
         body: z.object({
             username: usernameSchema,
         }),

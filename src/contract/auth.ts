@@ -2,7 +2,7 @@ import { initContract, ZodErrorSchema } from "@ts-rest/core";
 import { z } from "zod";
 import { apiError, apiSuccess } from "../types.js";
 import {
-    authSchema,
+    authHeaderSchema,
     emailCredentialSchema,
     emailSchema,
     passwordCredentialSchema,
@@ -19,7 +19,7 @@ export default c.router({
     auth: {
         method: "POST",
         path: "/auth/check",
-        headers: authSchema,
+        headers: authHeaderSchema,
         body: z.undefined(),
         responses: {
             200: apiSuccess(

@@ -1,6 +1,7 @@
-import { initContract } from "@ts-rest/core";
+import { initContract, ZodErrorSchema } from "@ts-rest/core";
 import { z } from "zod";
 import { apiError, apiSuccess } from "../types.js";
+import { authHeaderSchema } from "../types/creds.js";
 import { userIdSchema } from "../types/user.js";
 
 const c = initContract();
@@ -10,11 +11,15 @@ export default c.router({
         method: "POST",
         path: "/user/picture/profile/border",
         description: "Set border for user profile picture",
+        headers: authHeaderSchema,
         body: z.object({
             roundBorder: z.boolean(),
         }),
         responses: {
             200: apiSuccess(z.null()),
+            400: ZodErrorSchema,
+            401: apiError(z.literal("UNAUTHORIZED"), z.literal("Unauthorized")),
+            500: apiError(z.literal("INTERNAL_SERVER_ERROR"), z.string()),
         },
     },
 
@@ -27,6 +32,16 @@ export default c.router({
         }),
         responses: {
             200: apiSuccess(z.instanceof(Blob)),
+            400: ZodErrorSchema,
+            404: apiError(
+                z.literal("NOT_FOUND"),
+                z.literal("Profile picture not found")
+            ),
+            500: apiError(z.literal("INTERNAL_SERVER_ERROR"), z.string()),
+            501: apiError(
+                z.literal("NOT_IMPLEMENTED"),
+                z.literal("Not implemented")
+            ),
         },
     },
 
@@ -43,11 +58,19 @@ export default c.router({
         method: "POST",
         path: "/user/picture/profile",
         description: "Update user profile picture",
+        headers: authHeaderSchema,
         body: z.object({
             picture: z.instanceof(Blob),
         }),
         responses: {
             200: apiSuccess(z.null()),
+            400: ZodErrorSchema,
+            401: apiError(z.literal("UNAUTHORIZED"), z.literal("Unauthorized")),
+            500: apiError(z.literal("INTERNAL_SERVER_ERROR"), z.string()),
+            501: apiError(
+                z.literal("NOT_IMPLEMENTED"),
+                z.literal("Not implemented")
+            ),
         },
     },
 
@@ -55,8 +78,16 @@ export default c.router({
         method: "DELETE",
         path: "/user/picture/profile",
         description: "Delete user profile picture",
+        headers: authHeaderSchema,
         responses: {
             200: apiSuccess(z.null()),
+            401: apiError(z.literal("UNAUTHORIZED"), z.literal("Unauthorized")),
+            404: apiError(z.literal("NOT_FOUND"), z.literal("User not found")),
+            500: apiError(z.literal("INTERNAL_SERVER_ERROR"), z.string()),
+            501: apiError(
+                z.literal("NOT_IMPLEMENTED"),
+                z.literal("Not implemented")
+            ),
         },
     },
 });

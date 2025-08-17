@@ -58,6 +58,6 @@ export const turnstileSchema = z
 
 export const jwtSchema = z.string().regex(/^Bearer \w+$/);
 
-export const authSchema = z.object({
-    authorization: z.string().optional(),
+export const authHeaderSchema = z.object({
+    authorization: z.string().startsWith("Bearer ").optional(),
 });
