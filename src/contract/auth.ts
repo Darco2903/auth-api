@@ -11,7 +11,7 @@ import {
     usernameSchema,
 } from "../types/creds.js";
 import { tokenDataDecodedSchema } from "../types/token.js";
-import { accessSchema } from "../types/auth.js";
+import { accessRefreshSchema } from "../types/auth.js";
 
 const c = initContract();
 
@@ -58,7 +58,7 @@ export default c.router({
             turnstile: turnstileSchema,
         }),
         responses: {
-            200: apiSuccess(accessSchema),
+            200: apiSuccess(accessRefreshSchema),
             400: ZodErrorSchema,
             401: z.union([
                 apiError(
@@ -83,7 +83,7 @@ export default c.router({
             })
             .optional(),
         responses: {
-            200: apiSuccess(accessSchema),
+            200: apiSuccess(accessRefreshSchema),
             400: z.union([
                 apiError(
                     z.literal("INVALID_REQUEST"),

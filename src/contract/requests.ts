@@ -55,6 +55,7 @@ export default c.router({
                     z.literal("Invalid token")
                 ),
             ]),
+            500: apiError(z.literal("INTERNAL_SERVER_ERROR"), z.string()),
         },
     },
 
