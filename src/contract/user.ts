@@ -11,7 +11,6 @@ import {
     authSchema,
     emailSchema,
     passwordSchema,
-    turnstileSchema,
     usernameSchema,
 } from "../types/creds.js";
 
@@ -51,10 +50,9 @@ export default c.router({
         headers: authSchema,
         body: z.object({
             email: emailSchema,
-            turnstile: turnstileSchema,
         }),
         responses: {
-            200: apiSuccess(userSchema),
+            200: z.null(),
             400: ZodErrorSchema,
             401: apiError(z.literal("UNAUTHORIZED"), z.string()),
             500: apiError(z.literal("INTERNAL_SERVER_ERROR"), z.string()),
@@ -68,10 +66,10 @@ export default c.router({
         headers: authSchema,
         body: z.object({
             password: passwordSchema,
-            turnstile: turnstileSchema,
+            disconnectAll: z.boolean().default(true),
         }),
         responses: {
-            200: apiSuccess(userSchema),
+            200: z.null(),
             400: ZodErrorSchema,
             401: apiError(z.literal("UNAUTHORIZED"), z.string()),
             500: apiError(z.literal("INTERNAL_SERVER_ERROR"), z.string()),
@@ -85,10 +83,9 @@ export default c.router({
         headers: authSchema,
         body: z.object({
             username: usernameSchema,
-            turnstile: turnstileSchema,
         }),
         responses: {
-            200: apiSuccess(userSchema),
+            200: z.null(),
             400: ZodErrorSchema,
             401: apiError(z.literal("UNAUTHORIZED"), z.string()),
             500: apiError(z.literal("INTERNAL_SERVER_ERROR"), z.string()),
