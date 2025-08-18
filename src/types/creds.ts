@@ -56,8 +56,8 @@ export const turnstileSchema = z
     .string()
     .nonempty({ message: "Turnstile token is required" });
 
-export const jwtSchema = z.string().regex(/^Bearer \w+$/);
+export const jwtSchema = z.string().startsWith("Bearer ");
 
 export const authHeaderSchema = z.object({
-    authorization: z.string().startsWith("Bearer ").optional(),
+    authorization: jwtSchema,
 });
