@@ -59,5 +59,5 @@ export const turnstileSchema = z
 export const jwtSchema = z.string().startsWith("Bearer ");
 
 export const authHeaderSchema = z.object({
-    authorization: jwtSchema,
+    authorization: jwtSchema.optional(),
 });

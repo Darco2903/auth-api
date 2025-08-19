@@ -27,6 +27,20 @@ export default c.router({
         },
     },
 
+    userGetFromIds: {
+        method: "GET",
+        path: "/user/ids",
+        description: "Get users by IDs",
+        query: z.object({
+            userIds: z.array(userIdSchema),
+        }),
+        responses: {
+            200: apiSuccess(z.array(userPublicSchema)),
+            400: ZodErrorSchema,
+            500: apiError(z.literal("INTERNAL_SERVER_ERROR"), z.string()),
+        },
+    },
+
     userMe: {
         method: "GET",
         path: "/user/me",
@@ -35,6 +49,7 @@ export default c.router({
         responses: {
             200: apiSuccess(userSchema),
             401: apiError(z.literal("UNAUTHORIZED"), z.literal("Unauthorized")),
+            404: apiError(z.literal("NOT_FOUND"), z.literal("User not found")),
             500: apiError(z.literal("INTERNAL_SERVER_ERROR"), z.string()),
         },
     },

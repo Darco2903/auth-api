@@ -1,6 +1,7 @@
 import { z } from "zod";
+import { PUBLIC_ID_LENGTH } from "../consts";
 
-export const userIdSchema = z.string().nonempty("User ID is required");
+export const userIdSchema = z.string().length(PUBLIC_ID_LENGTH);
 
 export const userPublicSchema = z.object({
     public_id: z.string(),
