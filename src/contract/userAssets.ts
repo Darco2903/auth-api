@@ -1,7 +1,7 @@
 import { initContract, ZodErrorSchema } from "@ts-rest/core";
 import { z } from "zod";
 import { apiError, apiSuccess } from "../types.js";
-import { authHeaderSchema } from "../types/creds.js";
+import { authHeaderSchema, cdnFeedbackHeaderSchema } from "../types/jwt.js";
 import { userIdSchema } from "../types/user.js";
 
 const c = initContract();
@@ -56,12 +56,10 @@ export default c.router({
 
     pictureUpdate: {
         method: "POST",
-        path: "/user/picture/profile",
-        description: "Update user profile picture",
-        headers: authHeaderSchema,
-        body: z.object({
-            picture: z.instanceof(Blob),
-        }),
+        path: "/profile/:userPublicId/avatar",
+        description: "Update user avatar picture",
+        headers: cdnFeedbackHeaderSchema,
+        body: z.undefined(),
         responses: {
             200: apiSuccess(z.null()),
             400: ZodErrorSchema,
@@ -74,20 +72,20 @@ export default c.router({
         },
     },
 
-    pictureDelete: {
-        method: "DELETE",
-        path: "/user/picture/profile",
-        description: "Delete user profile picture",
-        headers: authHeaderSchema,
-        responses: {
-            200: apiSuccess(z.null()),
-            401: apiError(z.literal("UNAUTHORIZED"), z.literal("Unauthorized")),
-            404: apiError(z.literal("NOT_FOUND"), z.literal("User not found")),
-            500: apiError(z.literal("INTERNAL_SERVER_ERROR"), z.string()),
-            501: apiError(
-                z.literal("NOT_IMPLEMENTED"),
-                z.literal("Not implemented")
-            ),
-        },
-    },
+    // pictureDelete: {
+    //     method: "DELETE",
+    //     path: "/profile/:userPublicId/avatar",
+    //     description: "Delete user avatar picture",
+    //     headers: cdnHeaderFeedbackSchema,
+    //     responses: {
+    //         200: apiSuccess(z.null()),
+    //         401: apiError(z.literal("UNAUTHORIZED"), z.literal("Unauthorized")),
+    //         404: apiError(z.literal("NOT_FOUND"), z.literal("User not found")),
+    //         500: apiError(z.literal("INTERNAL_SERVER_ERROR"), z.string()),
+    //         501: apiError(
+    //             z.literal("NOT_IMPLEMENTED"),
+    //             z.literal("Not implemented")
+    //         ),
+    //     },
+    // },
 });

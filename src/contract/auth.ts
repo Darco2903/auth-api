@@ -2,7 +2,6 @@ import { initContract, ZodErrorSchema } from "@ts-rest/core";
 import { z } from "zod";
 import { apiError, apiSuccess } from "../types.js";
 import {
-    authHeaderSchema,
     emailCredentialSchema,
     emailSchema,
     passwordCredentialSchema,
@@ -10,7 +9,10 @@ import {
     turnstileSchema,
     usernameSchema,
 } from "../types/creds.js";
-import { tokenDataDecodedSchema } from "../types/token.js";
+import {
+    authHeaderSchema,
+    accessTokenDataDecodedSchema,
+} from "../types/jwt.js";
 import { accessRefreshSchema } from "../types/auth.js";
 
 const c = initContract();
@@ -26,25 +28,13 @@ export default c.router({
                 z.union([
                     z.object({
                         result: z.literal(true),
-                        data: tokenDataDecodedSchema,
+                        data: accessTokenDataDecodedSchema,
                     }),
                     z.object({
                         result: z.literal(false),
                         data: z.undefined(),
                     }),
                 ])
-            ),
-        },
-    },
-
-    publicKey: {
-        method: "GET",
-        path: "/auth/public-key",
-        responses: {
-            200: apiSuccess(
-                z.object({
-                    publicKey: z.string(),
-                })
             ),
         },
     },

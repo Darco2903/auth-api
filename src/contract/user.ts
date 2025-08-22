@@ -2,16 +2,14 @@ import { initContract, ZodErrorSchema } from "@ts-rest/core";
 import { z } from "zod";
 import { apiError, apiSuccess } from "../types.js";
 import { userIdSchema, userPublicSchema, userSchema } from "../types/user.js";
-import {
-    authHeaderSchema,
-    emailSchema,
-    passwordSchema,
-    usernameSchema,
-} from "../types/creds.js";
+import { emailSchema, passwordSchema, usernameSchema } from "../types/creds.js";
+import { authHeaderSchema } from "../types/jwt.js";
+import userAssets from "./userAssets.js";
 
 const c = initContract();
 
 export default c.router({
+    assets: userAssets,
     userGetFromId: {
         method: "GET",
         path: "/user/id/:userId",

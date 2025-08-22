@@ -7,6 +7,8 @@ import {
     MAX_EMAIL_LENGTH,
 } from "../consts.js";
 
+export const tokenSchema = z.string().nonempty("Token is required");
+
 const emailSchemaBase = z.string().max(MAX_EMAIL_LENGTH, "Email is too long");
 
 export const emailSchema = emailSchemaBase.email();
@@ -55,9 +57,3 @@ export const usernameSchema = z
 export const turnstileSchema = z
     .string()
     .nonempty({ message: "Turnstile token is required" });
-
-export const jwtSchema = z.string().startsWith("Bearer ");
-
-export const authHeaderSchema = z.object({
-    authorization: jwtSchema.optional(),
-});

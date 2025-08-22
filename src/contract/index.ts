@@ -1,17 +1,19 @@
 import { initContract } from "@ts-rest/core";
+import assets from "./assets.js";
 import auth from "./auth.js";
+import key from "./key.js";
 import requests from "./requests.js";
 import user from "./user.js";
-import userPictureProfile from "./userPictureProfile.js";
 
 const c = initContract();
 
 export default c.router(
     {
+        assets,
         ...auth,
+        ...key,
         ...requests,
-        ...user,
-        ...userPictureProfile,
+        user,
     },
     {
         pathPrefix: "/api/v2",
