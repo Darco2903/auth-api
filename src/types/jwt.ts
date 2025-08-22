@@ -15,7 +15,7 @@ export const authHeaderSchema = z.object({
 
 export const accessTokenDataSchema = z.object({
     public_id: z.string(),
-    role: z.number().int().min(-1).max(255).optional(),
+    role: z.number().int().min(-1).max(255),
     password_reset: z.string().optional(),
 });
 
