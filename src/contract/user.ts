@@ -10,7 +10,7 @@ const c = initContract();
 
 export default c.router({
     assets: userAssets,
-    userGetFromId: {
+    getFromId: {
         method: "GET",
         path: "/user/id/:userId",
         description: "Get user by ID",
@@ -25,7 +25,7 @@ export default c.router({
         },
     },
 
-    userGetFromIds: {
+    getFromIds: {
         method: "GET",
         path: "/user/ids",
         description: "Get users by IDs",
@@ -39,7 +39,7 @@ export default c.router({
         },
     },
 
-    userMe: {
+    me: {
         method: "GET",
         path: "/user/me",
         description: "Get current user",
@@ -52,7 +52,7 @@ export default c.router({
         },
     },
 
-    userUpdateEmail: {
+    updateEmail: {
         method: "PATCH",
         path: "/user/email",
         description: "Update email for current user",
@@ -68,7 +68,7 @@ export default c.router({
         },
     },
 
-    userUpdatePassword: {
+    updatePassword: {
         method: "PATCH",
         path: "/user/password",
         description: "Update password for current user",
@@ -85,7 +85,7 @@ export default c.router({
         },
     },
 
-    userUpdateUsername: {
+    updateUsername: {
         method: "PATCH",
         path: "/user/username",
         description: "Update username for current user",
@@ -97,6 +97,22 @@ export default c.router({
             200: z.null(),
             400: ZodErrorSchema,
             401: apiError(z.literal("UNAUTHORIZED"), z.string()),
+            500: apiError(z.literal("INTERNAL_SERVER_ERROR"), z.string()),
+        },
+    },
+
+    setBorder: {
+        method: "POST",
+        path: "/user/picture/profile/border",
+        description: "Set border for user profile picture",
+        headers: authHeaderSchema,
+        body: z.object({
+            roundBorder: z.boolean(),
+        }),
+        responses: {
+            200: apiSuccess(z.null()),
+            400: ZodErrorSchema,
+            401: apiError(z.literal("UNAUTHORIZED"), z.literal("Unauthorized")),
             500: apiError(z.literal("INTERNAL_SERVER_ERROR"), z.string()),
         },
     },

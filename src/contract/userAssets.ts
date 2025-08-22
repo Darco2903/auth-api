@@ -7,22 +7,6 @@ import { userIdSchema } from "../types/user.js";
 const c = initContract();
 
 export default c.router({
-    pictureSetBorder: {
-        method: "POST",
-        path: "/user/picture/profile/border",
-        description: "Set border for user profile picture",
-        headers: authHeaderSchema,
-        body: z.object({
-            roundBorder: z.boolean(),
-        }),
-        responses: {
-            200: apiSuccess(z.null()),
-            400: ZodErrorSchema,
-            401: apiError(z.literal("UNAUTHORIZED"), z.literal("Unauthorized")),
-            500: apiError(z.literal("INTERNAL_SERVER_ERROR"), z.string()),
-        },
-    },
-
     pictureGet: {
         method: "GET",
         path: "/user/picture/profile/:userId",
