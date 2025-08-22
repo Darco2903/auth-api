@@ -3,10 +3,16 @@ import { PUBLIC_ID_LENGTH } from "../consts";
 
 export const userIdSchema = z.string().length(PUBLIC_ID_LENGTH);
 
+const asset = z.string().url().nullable();
+
+const userAssetsSchema = z.object({
+    avatar: asset,
+});
+
 export const userPublicSchema = z.object({
     public_id: z.string(),
     name: z.string(),
-    profile_picture: z.string().nullable(),
+    assets: userAssetsSchema,
     round_border: z.boolean(),
 });
 
@@ -21,5 +27,6 @@ export const userSchema = userPublicSchema.extend({
     password_reset: z.date().nullable(),
 });
 
+export type UserAssets = z.infer<typeof userAssetsSchema>;
 export type UserPublic = z.infer<typeof userPublicSchema>;
 export type User = z.infer<typeof userSchema>;

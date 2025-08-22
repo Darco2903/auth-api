@@ -10,7 +10,7 @@ const c = initContract();
 
 export default c.router({
     assets: userAssets,
-    getFromId: {
+    fromId: {
         method: "GET",
         path: "/user/id/:userId",
         description: "Get user by ID",
@@ -25,7 +25,7 @@ export default c.router({
         },
     },
 
-    getFromIds: {
+    fromIds: {
         method: "GET",
         path: "/user/ids",
         description: "Get users by IDs",

@@ -7,27 +7,27 @@ import { userIdSchema } from "../types/user.js";
 const c = initContract();
 
 export default c.router({
-    pictureGet: {
-        method: "GET",
-        path: "/user/picture/profile/:userId",
-        description: "Get user profile picture",
-        pathParams: z.object({
-            userId: userIdSchema,
-        }),
-        responses: {
-            200: apiSuccess(z.instanceof(Blob)),
-            400: ZodErrorSchema,
-            404: apiError(
-                z.literal("NOT_FOUND"),
-                z.literal("Profile picture not found")
-            ),
-            500: apiError(z.literal("INTERNAL_SERVER_ERROR"), z.string()),
-            501: apiError(
-                z.literal("NOT_IMPLEMENTED"),
-                z.literal("Not implemented")
-            ),
-        },
-    },
+    // avatarGet: {
+    //     method: "GET",
+    //     path: "/profile/:userId/avatar",
+    //     description: "Get user profile picture",
+    //     pathParams: z.object({
+    //         userId: userIdSchema,
+    //     }),
+    //     responses: {
+    //         200: apiSuccess(z.instanceof(Blob)),
+    //         400: ZodErrorSchema,
+    //         404: apiError(
+    //             z.literal("NOT_FOUND"),
+    //             z.literal("Profile picture not found")
+    //         ),
+    //         500: apiError(z.literal("INTERNAL_SERVER_ERROR"), z.string()),
+    //         501: apiError(
+    //             z.literal("NOT_IMPLEMENTED"),
+    //             z.literal("Not implemented")
+    //         ),
+    //     },
+    // },
 
     // pictureDirectLink: {
     //     method: "GET",
@@ -38,7 +38,7 @@ export default c.router({
     //     },
     // },
 
-    pictureUpdate: {
+    avatarUpdate: {
         method: "POST",
         path: "/profile/:userPublicId/avatar",
         description: "Update user avatar picture",
