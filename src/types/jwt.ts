@@ -32,5 +32,5 @@ export type AccessTokenDataDecoded = z.infer<
 ///////////////////////////////////
 
 export const cdnFeedbackHeaderSchema = z.object({
-    authorization: jwtSchema.optional(),
+    authorization: jwtSchema,
 });

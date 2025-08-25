@@ -32,6 +32,8 @@ export default c.router({
         responses: {
             200: apiSuccess(z.null()),
             400: ZodErrorSchema,
+            401: apiError(z.literal("UNAUTHORIZED"), z.literal("Unauthorized")),
+            500: apiError(z.literal("INTERNAL_SERVER_ERROR"), z.string()),
         },
     },
     delete: {
