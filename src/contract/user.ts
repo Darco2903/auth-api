@@ -4,12 +4,10 @@ import { apiError, apiSuccess } from "../types.js";
 import { userIdSchema, userPublicSchema, userSchema } from "../types/user.js";
 import { emailSchema, passwordSchema, usernameSchema } from "../types/creds.js";
 import { authHeaderSchema } from "../types/jwt.js";
-import userAssets from "./userAssets.js";
 
 const c = initContract();
 
 export default c.router({
-    assets: userAssets,
     fromId: {
         method: "GET",
         path: "/user/id/:userId",

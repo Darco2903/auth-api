@@ -2,6 +2,7 @@ import { initContract, ZodErrorSchema } from "@ts-rest/core";
 import { z } from "zod";
 import { apiError, apiSuccess } from "../types.js";
 import { authHeaderSchema, cdnFeedbackHeaderSchema } from "../types/jwt.js";
+import { authAssetTypeSchema } from "../types/assets.js";
 
 const c = initContract();
 
@@ -11,7 +12,7 @@ export default c.router({
         path: "/assets/token",
         headers: authHeaderSchema,
         body: z.object({
-            type: z.literal("avatar"),
+            type: authAssetTypeSchema,
         }),
         responses: {
             200: apiSuccess(
@@ -23,16 +24,16 @@ export default c.router({
             401: apiError(z.literal("UNAUTHORIZED"), z.literal("Unauthorized")),
         },
     },
-    // update: {
-    //     method: "POST",
-    //     path: "/assets",
-    //     headers: cdnFeedbackHeaderSchema,
-    //     body: z.undefined(),
-    //     responses: {
-    //         200: apiSuccess(z.null()),
-    //         400: ZodErrorSchema,
-    //     },
-    // },
+    update: {
+        method: "POST",
+        path: "/assets",
+        headers: cdnFeedbackHeaderSchema,
+        body: z.undefined(),
+        responses: {
+            200: apiSuccess(z.null()),
+            400: ZodErrorSchema,
+        },
+    },
     delete: {
         method: "DELETE",
         path: "/assets",
