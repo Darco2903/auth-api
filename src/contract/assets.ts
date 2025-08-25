@@ -6,7 +6,7 @@ import { authHeaderSchema, cdnFeedbackHeaderSchema } from "../types/jwt.js";
 const c = initContract();
 
 export default c.router({
-    assetsToken: {
+    token: {
         method: "POST",
         path: "/assets/token",
         headers: authHeaderSchema,
@@ -20,23 +20,14 @@ export default c.router({
                 })
             ),
             400: ZodErrorSchema,
+            401: apiError(z.literal("UNAUTHORIZED"), z.literal("Unauthorized")),
         },
     },
-    // assetsUpdate: {
+    // update: {
     //     method: "POST",
     //     path: "/assets",
-    //     headers: cdnHeaderSchema,
-    //     body: cdnAssetsSchema,
-    //     responses: {
-    //         200: apiSuccess(z.null()),
-    //         400: ZodErrorSchema,
-    //     },
-    // },
-    // assetsDelete: {
-    //     method: "DELETE",
-    //     path: "/assets",
-    //     headers: cdnHeaderSchema,
-    //     body: cdnAssetsSchema,
+    //     headers: cdnFeedbackHeaderSchema,
+    //     body: z.undefined(),
     //     responses: {
     //         200: apiSuccess(z.null()),
     //         400: ZodErrorSchema,

@@ -62,7 +62,7 @@ export default c.router({
         method: "POST",
         path: "/verify/request",
         body: z.object({
-            email: z.string().email("Invalid email address"),
+            email: emailSchema,
             turnstile: turnstileSchema,
         }),
         responses: {
