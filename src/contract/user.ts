@@ -101,7 +101,7 @@ export default c.router({
         },
     },
 
-    setBorder: {
+    updateBorder: {
         method: "POST",
         path: "/user/picture/profile/border",
         description: "Set border for user profile picture",
