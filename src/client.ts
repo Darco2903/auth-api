@@ -1,3 +1,4 @@
+export * from "./common.js";
 import { initClient } from "@ts-rest/core";
 import contract from "./contract/index.js";
 

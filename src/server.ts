@@ -1,4 +1,5 @@
-import { JwtPayload } from "jsonwebtoken";
+export * from "./common.js";
+import type { JwtPayload } from "jsonwebtoken";
 
 export async function JWTVerify(
     token: string,
