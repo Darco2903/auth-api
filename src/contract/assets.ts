@@ -44,7 +44,6 @@ export default c.router({
         responses: {
             200: apiSuccess(z.null()),
             401: apiError(z.literal("UNAUTHORIZED"), z.literal("Unauthorized")),
-            404: apiError(z.literal("NOT_FOUND"), z.literal("User not found")),
             500: apiError(z.literal("INTERNAL_SERVER_ERROR"), z.string()),
         },
     },
