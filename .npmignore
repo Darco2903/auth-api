@@ -9,6 +9,7 @@ TODO.md
 prettier.config.js
 tsconfig.json
 src/
+.github/
 
 # build
 openapi.json

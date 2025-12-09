@@ -17,3 +17,20 @@ export function getRoleName(level: number): string {
 export function getRoleLevel(name: string): number {
     return UserRole[name as keyof typeof UserRole] || -1;
 }
+
+export function accessTokenExpiresAt(): Date | null {
+    if (document) {
+        const expiresAtCookie = document.cookie
+            .split("; ")
+            .find((row) => row.startsWith("expiresAt="))
+            ?.split("=")[1];
+
+        if (expiresAtCookie) {
+            const expiresAt = Number(expiresAtCookie) * 1000;
+            if (!isNaN(expiresAt)) {
+                return new Date(expiresAt);
+            }
+        }
+    }
+    return null;
+}
