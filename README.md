@@ -1,48 +1,25 @@
-# Auth API
-
-## Darco2903 Authentification API
+# Authentification API
 
 ## Description
 
-This API is used to authenticate users on **Darco2903** platforms.
+This API is a TypeScript client for the Darco2903 authentication service.
 
-### Installation
+## Installation
 
 ```bash
-npm install ./auth-api-<version>.tgz
+npm install auth-api-<version>.tgz
+npm install @ts-rest/core zod@3.22.3
 ```
 
-### Usage
+## Usage
 
-The API supports both Node.js and browser environments.
+Create an instance of the API
 
-```javascript
-// Node.js
-const AuthAPI = require("auth-api");
+```ts
+import { initClient } from "@ts-rest/core";
+import { contract } from "auth-api";
 
-// or
-
-// Browser
-import AuthAPI from "auth-api";
+const api = initClient(contract, {
+    baseUrl: "https://api.example.com",
+});
 ```
-
-That's it! You can now use the API.
-
-### API
-
-| Method                        | Description                       |
-| ----------------------------- | --------------------------------- |
-| `auth`                        | Check if a user is authenticated. |
-| `login`                       | Log in a user.                    |
-| `logout`                      | Log out a user.                   |
-| `permission.get`              | Get the permission of a user.     |
-| `permission.has`              | Check if a user has a permission. |
-| `session.get`                 | Get the session of a user.        |
-| `session.refresh`             | Refresh a user session.           |
-| `user.getFromId`              | Get a user from an ID.            |
-| `user.me`                     | Get the current user.             |
-| `user.updateUsername`         | Update a user's username.         |
-| `user.picture.profile.border` | Update a user's profile border.   |
-| `user.picture.profile.get`    | Get a user's profile picture.     |
-| `user.picture.profile.update` | Update a user's profile picture.  |
-| `user.picture.profile.delete` | Delete a user's profile picture.  |
