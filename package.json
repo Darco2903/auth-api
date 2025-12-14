@@ -17,10 +17,8 @@
         "./server": "./dist/server.js"
     },
     "scripts": {
-        "dev": "tsx src/index.ts",
         "build": "tsc",
         "prepack": "pnpm run build",
-        "start": "node .",
         "generate-openapi": "tsx tools/generate-openapi.ts",
         "clean": "rimraf -g dist openapi.json darco2903-auth-api-*.tgz"
     },
