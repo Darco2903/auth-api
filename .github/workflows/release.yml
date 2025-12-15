@@ -100,10 +100,11 @@ jobs:
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GH_PACKAGES_TOKEN }}
 
-      - name: Pack project
+      - name: Create tarball
         run: pnpm pack
 
-      - name: Upload release asset
+      - name: Create GitHub Release
+        if: "!contains(steps.version.outputs.version, '-')"
         uses: softprops/action-gh-release@v2
         with:
           files: "${{ env.TARBALL_NAME }}-*.tgz"
@@ -113,6 +114,11 @@ jobs:
 
       - name: Publish to GitHub Packages
         shell: bash
-        run: pnpm publish --access public --no-git-checks
+        run: |
+          if [[ "$VERSION" == *"-"* ]]; then
+            pnpm publish --tag next --access public --no-git-checks
+          else
+            pnpm publish --access public --no-git-checks
+          fi
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GH_PACKAGES_TOKEN }}
