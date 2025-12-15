@@ -1,5 +1,15 @@
 import { z } from "zod";
 
+export type JWTVerifyError = {
+    name:
+        | "TokenExpiredError"
+        | "JsonWebTokenError"
+        | "NotBeforeError"
+        | "InvalidToken"
+        | "InvalidTokenData";
+    message: string;
+};
+
 const JWTData = z.object({
     iat: z.number(),
     exp: z.number(),
