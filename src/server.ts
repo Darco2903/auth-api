@@ -1,10 +1,13 @@
 export * from "./common.js";
 import jwt from "jsonwebtoken";
 import { type Result, err, ok } from "neverthrow";
+import { type CdnAssetTokenData } from "@darco2903/cdn-api";
 import {
     accessTokenDataDecodedSchema,
     type JWTVerifyError,
+    type AccessTokenData,
     type AccessTokenDataDecoded,
+    type JWTSignError,
 } from "./common.js";
 
 export async function JWTVerify(
@@ -41,5 +44,34 @@ export async function JWTVerify(
                 }
             }
         });
+    });
+}
+
+export async function JWTSign(
+    payload: AccessTokenData | CdnAssetTokenData,
+    privKey: string,
+    expiresIn: number
+): Promise<Result<string, JWTSignError>> {
+    return new Promise((resolve) => {
+        jwt.sign(
+            payload,
+            privKey,
+            {
+                algorithm: "RS256",
+                expiresIn: expiresIn,
+            },
+            (e, token) => {
+                if (e || token === undefined) {
+                    resolve(
+                        err({
+                            name: "JsonWebTokenError",
+                            message: e?.message ?? "Failed to sign token",
+                        })
+                    );
+                } else {
+                    resolve(ok(token));
+                }
+            }
+        );
     });
 }

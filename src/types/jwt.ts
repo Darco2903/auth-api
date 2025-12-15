@@ -10,6 +10,11 @@ export type JWTVerifyError = {
     message: string;
 };
 
+export type JWTSignError = {
+    name: "InvalidTokenData" | "JsonWebTokenError";
+    message: string;
+};
+
 const JWTData = z.object({
     iat: z.number(),
     exp: z.number(),

@@ -30,6 +30,7 @@
         "zod": "^3.25.76"
     },
     "devDependencies": {
+        "@darco2903/cdn-api": "^1.0.3",
         "@types/jsonwebtoken": "^9.0.10",
         "@types/node": "^24.8.1",
         "prettier": "^3.6.2",
