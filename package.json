@@ -23,6 +23,7 @@
         "clean": "rimraf -g dist openapi.json darco2903-auth-api-*.tgz"
     },
     "dependencies": {
+        "@darco2903/cdn-api": "^1.0.5",
         "@ts-rest/core": "^3.52.1",
         "@ts-rest/open-api": "^3.52.1",
         "jsonwebtoken": "^9.0.3",
@@ -30,7 +31,6 @@
         "zod": "^3.25.76"
     },
     "devDependencies": {
-        "@darco2903/cdn-api": "^1.0.3",
         "@types/jsonwebtoken": "^9.0.10",
         "@types/node": "^24.8.1",
         "prettier": "^3.6.2",

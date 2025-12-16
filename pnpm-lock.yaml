@@ -8,6 +8,9 @@ importers:
 
   .:
     dependencies:
+      '@darco2903/cdn-api':
+        specifier: ^1.0.5
+        version: 1.0.5(@types/node@24.8.1)
       '@ts-rest/core':
         specifier: ^3.52.1
         version: 3.52.1(@types/node@24.8.1)(zod@3.25.76)
@@ -24,9 +27,6 @@ importers:
         specifier: ^3.25.76
         version: 3.25.76
     devDependencies:
-      '@darco2903/cdn-api':
-        specifier: ^1.0.3
-        version: 1.0.3(@types/node@24.8.1)
       '@types/jsonwebtoken':
         specifier: ^9.0.10
         version: 9.0.10
@@ -57,8 +57,8 @@ packages:
   '@darco2903/auth-api@2.0.0':
     resolution: {integrity: sha512-uAiabGoPezN0YxkLJCsBmxl/3QuYJ5c15HY8iEqstzeGt0cFwyHHEGulJRc7Bgasgc4P9XFCcN03ju5EYoEfIw==, tarball: https://npm.pkg.github.com/download/@darco2903/auth-api/2.0.0/a184e103b6e07c4ec8f0640d6f3a9b0ae896d81b}
 
-  '@darco2903/cdn-api@1.0.3':
-    resolution: {integrity: sha512-MfBnfVKxtuggGHvkDIF70YvNpJ+7s5QCKVLQJwxruirmjVeVw1bYf/YRzps6Ej5RsT5OelW1k6046InQAqObaA==, tarball: https://npm.pkg.github.com/download/@darco2903/cdn-api/1.0.3/ba11268e27174423efa587f0fed6224ab4e58e77}
+  '@darco2903/cdn-api@1.0.5':
+    resolution: {integrity: sha512-NL1CjBnFpMqduwV9fbZRtltLdxcazPfJgXGDzNH5ElnZoo37qu6DBd+0fDg7Bd8NwImizUGOw8jwjIUArGdrxg==, tarball: https://npm.pkg.github.com/download/@darco2903/cdn-api/1.0.5/b06153cba1cc1a86b19895aedba86dbe92322cad}
 
   '@esbuild/aix-ppc64@0.25.11':
     resolution: {integrity: sha512-Xt1dOL13m8u0WE8iplx9Ibbm+hFAO0GsU2P34UNoDGvZYkY8ifSiy6Zuc1lYxfG7svWE2fzqCUmFp5HCn51gJg==}
@@ -637,13 +637,14 @@ snapshots:
     transitivePeerDependencies:
       - '@types/node'
 
-  '@darco2903/cdn-api@1.0.3(@types/node@24.8.1)':
+  '@darco2903/cdn-api@1.0.5(@types/node@24.8.1)':
     dependencies:
       '@darco2903/auth-api': 2.0.0(@types/node@24.8.1)
       '@ts-rest/core': 3.52.1(@types/node@24.8.1)(zod@3.25.76)
       '@ts-rest/open-api': 3.52.1(@ts-rest/core@3.52.1(@types/node@24.8.1)(zod@3.25.76))(zod@3.25.76)
       axios: 1.13.2
       jsonwebtoken: 9.0.3
+      neverthrow: 8.2.0
       socket.io-client: 4.8.1
       zod: 3.25.76
     transitivePeerDependencies:
