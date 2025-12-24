@@ -1,4 +1,4 @@
-import { z, ZodType } from "zod";
+import { z, type ZodType } from "zod";
 
 export const apiSuccess = <T>(schema: ZodType<T>) => schema;
 

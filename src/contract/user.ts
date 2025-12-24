@@ -1,9 +1,15 @@
 import { initContract, ZodErrorSchema } from "@ts-rest/core";
-import { z } from "zod";
+import z from "zod";
 import { apiError, apiSuccess } from "../types.js";
-import { userIdSchema, userPublicSchema, userSchema } from "../types/user.js";
-import { emailSchema, passwordSchema, usernameSchema } from "../types/creds.js";
-import { authHeaderSchema } from "../types/jwt.js";
+import {
+    authHeaderSchema,
+    emailSchema,
+    passwordSchema,
+    usernameSchema,
+    userPublicIdSchema,
+    userPublicSchema,
+    userSchema,
+} from "../types/index.js";
 
 const c = initContract();
 
@@ -13,7 +19,7 @@ export default c.router({
         path: "/user/id/:userId",
         description: "Get user by ID",
         pathParams: z.object({
-            userId: userIdSchema,
+            userId: userPublicIdSchema,
         }),
         responses: {
             200: apiSuccess(userPublicSchema),
@@ -28,7 +34,7 @@ export default c.router({
         path: "/user/ids",
         description: "Get users by IDs",
         query: z.object({
-            userIds: z.array(userIdSchema),
+            userIds: z.array(userPublicIdSchema),
         }),
         responses: {
             200: apiSuccess(z.array(userPublicSchema)),

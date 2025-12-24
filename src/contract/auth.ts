@@ -1,19 +1,17 @@
 import { initContract, ZodErrorSchema } from "@ts-rest/core";
-import { z } from "zod";
+import z from "zod";
 import { apiError, apiSuccess } from "../types.js";
 import {
+    authHeaderSchema,
+    accessTokenDataDecodedSchema,
+    accessRefreshSchema,
     emailCredentialSchema,
     emailSchema,
     passwordCredentialSchema,
     passwordSchema,
     turnstileSchema,
     usernameSchema,
-} from "../types/creds.js";
-import {
-    authHeaderSchema,
-    accessTokenDataDecodedSchema,
-} from "../types/jwt.js";
-import { accessRefreshSchema } from "../types/auth.js";
+} from "../types/index.js";
 
 const c = initContract();
 

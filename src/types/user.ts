@@ -1,7 +1,10 @@
-import { z } from "zod";
-import { PUBLIC_ID_LENGTH } from "../consts.js";
+import z from "zod";
+import { USER_PUBLIC_ID_LENGTH } from "../consts.js";
 
-export const userIdSchema = z.string().length(PUBLIC_ID_LENGTH);
+export const userPublicIdSchema = z
+    .string()
+    .length(USER_PUBLIC_ID_LENGTH)
+    .regex(/^[a-zA-Z0-9]+$/);
 
 const asset = z.string().url().nullable();
 
@@ -9,12 +12,16 @@ const userAssetsSchema = z.object({
     avatar: asset,
 });
 
+export type UserAssets = z.infer<typeof userAssetsSchema>;
+
 export const userPublicSchema = z.object({
     public_id: z.string(),
     name: z.string(),
     assets: userAssetsSchema,
     round_border: z.boolean(),
 });
+
+export type UserPublic = z.infer<typeof userPublicSchema>;
 
 export const userSchema = userPublicSchema.extend({
     email: z.string().email(),
@@ -27,6 +34,4 @@ export const userSchema = userPublicSchema.extend({
     password_reset: z.date().nullable(),
 });
 
-export type UserAssets = z.infer<typeof userAssetsSchema>;
-export type UserPublic = z.infer<typeof userPublicSchema>;
 export type User = z.infer<typeof userSchema>;

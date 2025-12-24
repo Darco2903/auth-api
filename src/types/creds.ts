@@ -1,15 +1,15 @@
-import { z } from "zod";
+import z from "zod";
 import {
-    MAX_PASSWORD_LENGTH,
-    MIN_PASSWORD_LENGTH,
-    MAX_NAME_LENGTH,
-    MIN_NAME_LENGTH,
-    MAX_EMAIL_LENGTH,
+    PASSWORD_MAX_LENGTH,
+    PASSWORD_MIN_LENGTH,
+    NAME_MAX_LENGTH,
+    NAME_MIN_LENGTH,
+    EMAIL_MAX_LENGTH,
 } from "../consts.js";
 
 export const tokenSchema = z.string().nonempty("Token is required");
 
-const emailSchemaBase = z.string().max(MAX_EMAIL_LENGTH, "Email is too long");
+const emailSchemaBase = z.string().max(EMAIL_MAX_LENGTH, "Email is too long");
 
 export const emailSchema = emailSchemaBase.email();
 export const emailCredentialSchema = emailSchemaBase.email({
@@ -30,8 +30,8 @@ export const passwordSchema = z
         REGEX_SPECIAL,
         "Password must contain at least one special character"
     )
-    .min(MIN_PASSWORD_LENGTH, "Password is too short")
-    .max(MAX_PASSWORD_LENGTH, "Password is too long");
+    .min(PASSWORD_MIN_LENGTH, "Password is too short")
+    .max(PASSWORD_MAX_LENGTH, "Password is too long");
 
 export const passwordCredentialSchema = z.string().superRefine((val, ctx) => {
     const hasLower = REGEX_LOWER.test(val);
@@ -39,7 +39,7 @@ export const passwordCredentialSchema = z.string().superRefine((val, ctx) => {
     const hasNumber = REGEX_NUMBER.test(val);
     const hasSpecial = REGEX_SPECIAL.test(val);
     const validLength =
-        val.length >= MIN_PASSWORD_LENGTH && val.length <= MAX_PASSWORD_LENGTH;
+        val.length >= PASSWORD_MIN_LENGTH && val.length <= PASSWORD_MAX_LENGTH;
 
     if (!(hasLower && hasUpper && hasNumber && hasSpecial && validLength)) {
         ctx.addIssue({
@@ -51,8 +51,8 @@ export const passwordCredentialSchema = z.string().superRefine((val, ctx) => {
 
 export const usernameSchema = z
     .string()
-    .min(MIN_NAME_LENGTH, "Username is too short")
-    .max(MAX_NAME_LENGTH, "Username is too long");
+    .min(NAME_MIN_LENGTH, "Username is too short")
+    .max(NAME_MAX_LENGTH, "Username is too long");
 
 export const turnstileSchema = z
     .string()

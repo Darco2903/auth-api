@@ -1,8 +1,11 @@
 import { initContract, ZodErrorSchema } from "@ts-rest/core";
-import { z } from "zod";
+import z from "zod";
 import { apiError, apiSuccess } from "../types.js";
-import { authHeaderSchema, cdnFeedbackHeaderSchema } from "../types/jwt.js";
-import { authAssetTypeSchema } from "../types/assets.js";
+import {
+    authHeaderSchema,
+    cdnFeedbackHeaderSchema,
+    authAssetTypeSchema,
+} from "../types/index.js";
 
 const c = initContract();
 
