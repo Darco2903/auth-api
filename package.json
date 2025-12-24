@@ -1,6 +1,6 @@
 {
     "name": "@darco2903/auth-api",
-    "version": "2.0.2",
+    "version": "2.0.3-pre.0",
     "description": "",
     "main": "./dist/index.js",
     "type": "module",
