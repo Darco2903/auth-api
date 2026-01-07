@@ -65,7 +65,7 @@ export default c.router({
             email: emailSchema,
         }),
         responses: {
-            200: z.null(),
+            200: apiSuccess(c.noBody()),
             400: ZodErrorSchema,
             401: apiError(z.literal("UNAUTHORIZED"), z.string()),
             500: apiError(z.literal("INTERNAL_SERVER_ERROR"), z.string()),
@@ -82,7 +82,7 @@ export default c.router({
             disconnectAll: z.boolean().default(true),
         }),
         responses: {
-            200: z.null(),
+            200: apiSuccess(c.noBody()),
             400: ZodErrorSchema,
             401: apiError(z.literal("UNAUTHORIZED"), z.string()),
             500: apiError(z.literal("INTERNAL_SERVER_ERROR"), z.string()),
@@ -98,7 +98,7 @@ export default c.router({
             username: usernameSchema,
         }),
         responses: {
-            200: z.null(),
+            200: apiSuccess(c.noBody()),
             400: ZodErrorSchema,
             401: apiError(z.literal("UNAUTHORIZED"), z.string()),
             500: apiError(z.literal("INTERNAL_SERVER_ERROR"), z.string()),
@@ -114,7 +114,7 @@ export default c.router({
             roundBorder: z.boolean(),
         }),
         responses: {
-            200: apiSuccess(z.null()),
+            200: apiSuccess(c.noBody()),
             400: ZodErrorSchema,
             401: apiError(z.literal("UNAUTHORIZED"), z.literal("Unauthorized")),
             500: apiError(z.literal("INTERNAL_SERVER_ERROR"), z.string()),

@@ -19,7 +19,7 @@ export default c.router({
             turnstile: turnstileSchema,
         }),
         responses: {
-            200: apiSuccess(z.null()),
+            200: apiSuccess(c.noBody()),
             400: ZodErrorSchema,
             401: apiError(
                 z.literal("INVALID_TURNSTILE"),
@@ -70,7 +70,7 @@ export default c.router({
             turnstile: turnstileSchema,
         }),
         responses: {
-            200: apiSuccess(z.null()),
+            200: apiSuccess(c.noBody()),
             400: ZodErrorSchema,
             401: apiError(
                 z.literal("INVALID_TURNSTILE"),

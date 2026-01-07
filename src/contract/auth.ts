@@ -11,6 +11,7 @@ import {
     passwordSchema,
     turnstileSchema,
     usernameSchema,
+    totpCodeSchema,
 } from "../types/index.js";
 
 const c = initContract();
@@ -20,7 +21,7 @@ export default c.router({
         method: "POST",
         path: "/auth/check",
         headers: authHeaderSchema,
-        body: z.undefined(),
+        body: c.noBody(),
         responses: {
             200: apiSuccess(
                 z.union([
@@ -34,6 +35,7 @@ export default c.router({
                     }),
                 ])
             ),
+            // 200: apiSuccess(c.noBody()),
         },
     },
 
@@ -107,11 +109,15 @@ export default c.router({
         path: "/totp/setup/confirm",
         headers: authHeaderSchema,
         body: z.object({
-            totpCode: z.string().min(6).max(6),
+            totpCode: totpCodeSchema,
         }),
         responses: {
-            200: apiSuccess(z.null()),
-            400: ZodErrorSchema,
+            200: apiSuccess(c.noBody()),
+            400: z.union([
+                ZodErrorSchema,
+                apiError(z.literal("TOTP_NOT_SETUP"), z.string()),
+                apiError(z.literal("TOTP_INVALID"), z.string()),
+            ]),
             401: apiError(z.literal("UNAUTHORIZED"), z.literal("Unauthorized")),
             500: apiError(z.literal("INTERNAL_SERVER_ERROR"), z.string()),
         },
@@ -122,11 +128,16 @@ export default c.router({
         path: "/totp/verify",
         headers: authHeaderSchema,
         body: z.object({
-            totpCode: z.string().min(6).max(6),
+            totpCode: totpCodeSchema,
         }),
         responses: {
-            200: apiSuccess(z.null()),
-            400: ZodErrorSchema,
+            200: apiSuccess(c.noBody()),
+            400: z.union([
+                ZodErrorSchema,
+                apiError(z.literal("TOTP_NOT_SETUP"), z.string()),
+                apiError(z.literal("TOTP_NOT_REQUIRED"), z.string()),
+                apiError(z.literal("TOTP_INVALID"), z.string()),
+            ]),
             401: apiError(z.literal("UNAUTHORIZED"), z.literal("Unauthorized")),
             500: apiError(z.literal("INTERNAL_SERVER_ERROR"), z.string()),
         },
@@ -141,7 +152,7 @@ export default c.router({
             })
             .optional(),
         responses: {
-            200: z.null(),
+            200: apiSuccess(c.noBody()),
         },
     },
 
@@ -155,7 +166,7 @@ export default c.router({
             turnstile: turnstileSchema,
         }),
         responses: {
-            200: apiSuccess(z.null()),
+            200: apiSuccess(c.noBody()),
             400: ZodErrorSchema,
             401: apiError(
                 z.literal("INVALID_TURNSTILE"),

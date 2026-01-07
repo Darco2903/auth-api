@@ -33,15 +33,15 @@ export const accessTokenDataSchema = z.object({
     public_id: userPublicIdSchema,
     role: z.number().int().min(-1).max(255),
     password_reset: z.string().optional(),
-    totpRequired: z.boolean(),
-    totpVerified: z.boolean(),
+    totp_required: z.boolean(),
+    totp_verified: z.boolean(),
 });
 
 export type AccessTokenData = z.infer<typeof accessTokenDataSchema>;
 
 export const accessTokenDataDecodedSchema = z.intersection(
-    accessTokenDataSchema,
-    JWTData
+    JWTData,
+    accessTokenDataSchema
 );
 
 export type AccessTokenDataDecoded = z.infer<
