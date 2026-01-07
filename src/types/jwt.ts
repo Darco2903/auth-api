@@ -33,6 +33,8 @@ export const accessTokenDataSchema = z.object({
     public_id: userPublicIdSchema,
     role: z.number().int().min(-1).max(255),
     password_reset: z.string().optional(),
+    totpRequired: z.boolean(),
+    totpVerified: z.boolean(),
 });
 
 export type AccessTokenData = z.infer<typeof accessTokenDataSchema>;

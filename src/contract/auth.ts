@@ -84,6 +84,54 @@ export default c.router({
         },
     },
 
+    totpSetup: {
+        method: "POST",
+        path: "/totp/setup",
+        headers: authHeaderSchema,
+        body: c.noBody(),
+        responses: {
+            200: apiSuccess(
+                z.object({
+                    secret: z.string(),
+                    otpauthUrl: z.string(),
+                })
+            ),
+            400: ZodErrorSchema,
+            401: apiError(z.literal("UNAUTHORIZED"), z.literal("Unauthorized")),
+            500: apiError(z.literal("INTERNAL_SERVER_ERROR"), z.string()),
+        },
+    },
+
+    totpSetupConfirm: {
+        method: "POST",
+        path: "/totp/setup/confirm",
+        headers: authHeaderSchema,
+        body: z.object({
+            totpCode: z.string().min(6).max(6),
+        }),
+        responses: {
+            200: apiSuccess(z.null()),
+            400: ZodErrorSchema,
+            401: apiError(z.literal("UNAUTHORIZED"), z.literal("Unauthorized")),
+            500: apiError(z.literal("INTERNAL_SERVER_ERROR"), z.string()),
+        },
+    },
+
+    totpVerify: {
+        method: "POST",
+        path: "/totp/verify",
+        headers: authHeaderSchema,
+        body: z.object({
+            totpCode: z.string().min(6).max(6),
+        }),
+        responses: {
+            200: apiSuccess(z.null()),
+            400: ZodErrorSchema,
+            401: apiError(z.literal("UNAUTHORIZED"), z.literal("Unauthorized")),
+            500: apiError(z.literal("INTERNAL_SERVER_ERROR"), z.string()),
+        },
+    },
+
     logout: {
         method: "POST",
         path: "/logout",

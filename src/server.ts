@@ -1,14 +1,14 @@
 export * from "./common.js";
 import jwt from "jsonwebtoken";
 import { type Result, err, ok } from "neverthrow";
-import { type CdnAssetTokenData } from "@darco2903/cdn-api/server";
+import type { CdnAssetTokenData } from "@darco2903/cdn-api/server";
 import {
     accessTokenDataDecodedSchema,
     type JWTVerifyError,
     type AccessTokenData,
     type AccessTokenDataDecoded,
     type JWTSignError,
-} from "./types/jwt.js";
+} from "./types/index.js";
 import { JWT_ALGORITHM } from "./consts.js";
 
 export async function JWTVerify(
