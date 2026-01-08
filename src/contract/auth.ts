@@ -35,7 +35,6 @@ export default c.router({
                     }),
                 ])
             ),
-            // 200: apiSuccess(c.noBody()),
         },
     },
 

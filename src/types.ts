@@ -1,7 +1,7 @@
 import { z, type ZodType } from "zod";
 import type { ContractNoBodyType } from "@ts-rest/core";
 
-export const apiSuccess = <T>(schema: ZodType<T> | ContractNoBodyType) =>
+export const apiSuccess = <T extends ZodType | ContractNoBodyType>(schema: T) =>
     schema;
 
 export const apiError = <T, U>(code: ZodType<T>, error: ZodType<U>) =>
