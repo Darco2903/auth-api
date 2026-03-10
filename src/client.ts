@@ -1,3 +1,4 @@
+import { Second } from "@darco2903/secondthought";
 export * from "./common.js";
 import { initClient } from "@ts-rest/core";
 import contract from "./contract/index.js";
@@ -26,9 +27,9 @@ export function accessTokenExpiresAt(): Date | null {
             ?.split("=")[1];
 
         if (expiresAtCookie) {
-            const expiresAt = Number(expiresAtCookie) * 1000;
+            const expiresAt = Number(expiresAtCookie);
             if (!isNaN(expiresAt)) {
-                return new Date(expiresAt);
+                return new Second(expiresAt).toDate();
             }
         }
     }
