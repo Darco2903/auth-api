@@ -1,6 +1,7 @@
 export * from "./common.js";
 import jwt from "jsonwebtoken";
 import { ResultAsync } from "neverthrow";
+import type { Time } from "@darco2903/secondthought";
 import type { CdnAssetTokenData } from "@darco2903/cdn-api/server";
 import {
     accessTokenDataDecodedSchema,
@@ -51,11 +52,18 @@ export function JWTVerify(
     );
 }
 
+/**
+ * Sign a JWT token with the given payload and private key, with the specified expiration time.
+ * @param expiresIn Expiration time in seconds or a Time object.
+ */
 export function JWTSign(
     payload: AccessTokenData | CdnAssetTokenData,
     privKey: string,
-    expiresIn: number
+    expiresIn: number | Time
 ): ResultAsync<string, JWTSignError> {
+    const expiresInSec =
+        typeof expiresIn === "number" ? expiresIn : expiresIn.toSecond().time;
+
     return ResultAsync.fromPromise(
         new Promise((resolve, reject) => {
             jwt.sign(
@@ -63,7 +71,7 @@ export function JWTSign(
                 privKey,
                 {
                     algorithm: JWT_ALGORITHM,
-                    expiresIn: expiresIn,
+                    expiresIn: expiresInSec,
                 },
                 (e, token) => {
                     if (e || token === undefined) {
