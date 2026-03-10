@@ -10,7 +10,7 @@ import {
     type AccessTokenDataDecoded,
     type JWTSignError,
 } from "./types/index.js";
-import { JWT_ALGORITHM } from "./consts.js";
+import { JWT_ALGORITHM, JWT_ALGORITHMS } from "./consts.js";
 
 export function JWTVerify(
     token: string,
@@ -21,7 +21,7 @@ export function JWTVerify(
             jwt.verify(
                 token,
                 pubKey,
-                { algorithms: [JWT_ALGORITHM] },
+                { algorithms: JWT_ALGORITHMS },
                 (e, decoded) => {
                     if (e) {
                         reject({

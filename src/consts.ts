@@ -4,6 +4,7 @@ export const API_VERSION = "v2";
 export const API_PATH_PREFIX = `/api/${API_VERSION}`;
 
 export const JWT_ALGORITHM: Algorithm = "ES256";
+export const JWT_ALGORITHMS: Algorithm[] = [JWT_ALGORITHM, "RS256"];
 
 export const NAME_MIN_LENGTH = 3;
 export const NAME_MAX_LENGTH = 32;
