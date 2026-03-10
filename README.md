@@ -18,7 +18,7 @@ npm install @darco2903/auth-api
 import { createClient } from "@darco2903/auth-api/client";
 
 const SERVER_ORIGIN = "https://auth.example.com";
-const authApi = createAuthClient(SERVER_ORIGIN);
+const authApi = createClient(SERVER_ORIGIN);
 ```
 
 ### Signing a JWT token
@@ -31,7 +31,7 @@ import {
 } from "@darco2903/auth-api/server";
 import { Hour } from "@darco2903/secondthought";
 
-const JWT_PRIVATE_KEY = "";
+const JWT_PRIVATE_KEY = "..."; // Private key here
 const tokenData: AccessTokenData = {
     public_id: "user_public_id",
     role: UserRole.User,
@@ -55,7 +55,8 @@ await JWTSign(tokenData, JWT_PRIVATE_KEY, expiresIn).match(
 ```ts
 import { JWTVerify } from "@darco2903/auth-api/server";
 
-const accessToken = "..."; // Your JWT token here
+const JWT_PUBLIC_KEY = "..."; // Public key here
+const accessToken = "..."; // JWT token here
 
 await JWTVerify(accessToken, JWT_PUBLIC_KEY).match(
     (decodedToken) => {

@@ -9,7 +9,7 @@
     "license": "ISC",
     "packageManager": "pnpm@10.32.0",
     "repository": {
-        "url": "https://github.com/Darco2903/web-common.git"
+        "url": "https://github.com/Darco2903/auth-api.git"
     },
     "publishConfig": {
         "access": "public"
@@ -27,7 +27,7 @@
         "generate:openapi": "tsx tools/generate-openapi.ts"
     },
     "dependencies": {
-        "@darco2903/cdn-api": "^1.0.6",
+        "@darco2903/cdn-api": "^1.1.0",
         "@ts-rest/core": "^3.52.1",
         "@ts-rest/open-api": "^3.52.1",
         "jsonwebtoken": "^9.0.3",

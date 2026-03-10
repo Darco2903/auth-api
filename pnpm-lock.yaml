@@ -9,8 +9,8 @@ importers:
   .:
     dependencies:
       '@darco2903/cdn-api':
-        specifier: ^1.0.6
-        version: 1.0.6(@types/node@25.4.0)
+        specifier: ^1.1.0
+        version: 1.1.0(@darco2903/secondthought@1.3.0)(@types/node@25.4.0)
       '@darco2903/secondthought':
         specifier: ^1.1.0
         version: 1.3.0
@@ -60,11 +60,15 @@ packages:
       openapi3-ts: ^2.0.0 || ^3.0.0
       zod: ^3.20.0
 
-  '@darco2903/auth-api@2.0.3-pre.0':
-    resolution: {integrity: sha512-dYPe8/Y0PbbVe5w5CfOkgLELsxPFil+BwA5Rgo2HQ3kevvMbhY4OfCJK0lOk8nUi0fXCsHFo/b/ANVMo43oLSQ==, tarball: https://npm.pkg.github.com/download/@darco2903/auth-api/2.0.3-pre.0/2a0fe53374eb070c599e3b0dd99ad9da9715792d}
+  '@darco2903/auth-api@2.1.0':
+    resolution: {integrity: sha512-oB4ViSPWPhZEhgeQf25dINPU+2k57G8XL1x9XQK9iG0uIzOhFzPMdIx0ly9ghXe+CTg2hlHgQ6/EaxJpPr52Ww==}
+    peerDependencies:
+      '@darco2903/secondthought': ^1.1.0
 
-  '@darco2903/cdn-api@1.0.6':
-    resolution: {integrity: sha512-eGT9igtCPLRfjQCiOJtExP+Wm3h63Cej7aB8Zf4CpKQ0CiVST5JcCK6uQtveqdMzfkynN6brgLJyktgb6wU0iA==, tarball: https://npm.pkg.github.com/download/@darco2903/cdn-api/1.0.6/d93793c6e51a6e0b6b1dfb92a4d36f48eba270c0}
+  '@darco2903/cdn-api@1.1.0':
+    resolution: {integrity: sha512-8y+46C1+IsYP8I0C7Fjz87YQqycEAXLISvBgN7ZljMfsb8IKtZt+Xzb1zWKDPsqaIsCcC7BvCURW0ejo2ngu4w==}
+    peerDependencies:
+      '@darco2903/secondthought': ^1.1.0
 
   '@darco2903/secondthought@1.3.0':
     resolution: {integrity: sha512-htul4CNhDJ/4uxvaM+IwTCoQoASn1lC4nPloFZgJRA4Cmb08L/fE1kiuls89svwc4Nt5Ii4k2YNadrCy6O8D8Q==}
@@ -877,9 +881,10 @@ snapshots:
       ts-deepmerge: 6.2.1
       zod: 3.25.76
 
-  '@darco2903/auth-api@2.0.3-pre.0(@types/node@25.4.0)':
+  '@darco2903/auth-api@2.1.0(@darco2903/secondthought@1.3.0)(@types/node@25.4.0)':
     dependencies:
-      '@darco2903/cdn-api': 1.0.6(@types/node@25.4.0)
+      '@darco2903/cdn-api': 1.1.0(@darco2903/secondthought@1.3.0)(@types/node@25.4.0)
+      '@darco2903/secondthought': 1.3.0
       '@ts-rest/core': 3.52.1(@types/node@25.4.0)(zod@3.25.76)
       '@ts-rest/open-api': 3.52.1(@ts-rest/core@3.52.1(@types/node@25.4.0)(zod@3.25.76))(zod@3.25.76)
       jsonwebtoken: 9.0.3
@@ -892,9 +897,10 @@ snapshots:
       - supports-color
       - utf-8-validate
 
-  '@darco2903/cdn-api@1.0.6(@types/node@25.4.0)':
+  '@darco2903/cdn-api@1.1.0(@darco2903/secondthought@1.3.0)(@types/node@25.4.0)':
     dependencies:
-      '@darco2903/auth-api': 2.0.3-pre.0(@types/node@25.4.0)
+      '@darco2903/auth-api': 2.1.0(@darco2903/secondthought@1.3.0)(@types/node@25.4.0)
+      '@darco2903/secondthought': 1.3.0
       '@ts-rest/core': 3.52.1(@types/node@25.4.0)(zod@3.25.76)
       '@ts-rest/open-api': 3.52.1(@ts-rest/core@3.52.1(@types/node@25.4.0)(zod@3.25.76))(zod@3.25.76)
       axios: 1.13.6
