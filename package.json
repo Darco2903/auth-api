@@ -24,7 +24,7 @@
         "prepack": "pnpm run build",
         "test": "vitest",
         "clean": "rimraf -g dist openapi.json darco2903-auth-api-*.tgz",
-        "generate-openapi": "tsx tools/generate-openapi.ts"
+        "generate:openapi": "tsx tools/generate-openapi.ts"
     },
     "dependencies": {
         "@darco2903/cdn-api": "^1.0.6",
