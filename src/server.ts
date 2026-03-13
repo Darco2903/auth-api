@@ -1,6 +1,7 @@
 export * from "./common.js";
 import jwt from "jsonwebtoken";
 import { ResultAsync } from "neverthrow";
+import type { Algorithm } from "jsonwebtoken";
 import type { Time } from "@darco2903/secondthought";
 import type { CdnAssetTokenData } from "@darco2903/cdn-api/server";
 import {
@@ -21,7 +22,7 @@ export function JWTVerify(
             jwt.verify(
                 token,
                 pubKey,
-                { algorithms: JWT_ALGORITHMS },
+                { algorithms: JWT_ALGORITHMS as Algorithm[] },
                 (e, decoded) => {
                     if (e) {
                         reject({
@@ -70,7 +71,7 @@ export function JWTSign(
                 payload,
                 privKey,
                 {
-                    algorithm: JWT_ALGORITHM,
+                    algorithm: JWT_ALGORITHM as Algorithm,
                     expiresIn: expiresInSec,
                 },
                 (e, token) => {
