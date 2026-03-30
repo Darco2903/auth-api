@@ -33,7 +33,7 @@ export default c.router({
         headers: cdnFeedbackHeaderSchema,
         body: c.noBody(),
         responses: {
-            200: apiSuccess(c.noBody()),
+            204: apiSuccess(c.noBody()),
             400: ZodErrorSchema,
             401: apiError(z.literal("UNAUTHORIZED"), z.literal("Unauthorized")),
             500: apiError(z.literal("INTERNAL_SERVER_ERROR"), z.string()),
@@ -45,7 +45,7 @@ export default c.router({
         description: "Delete user avatar picture",
         headers: cdnFeedbackHeaderSchema,
         responses: {
-            200: apiSuccess(c.noBody()),
+            204: apiSuccess(c.noBody()),
             401: apiError(z.literal("UNAUTHORIZED"), z.literal("Unauthorized")),
             500: apiError(z.literal("INTERNAL_SERVER_ERROR"), z.string()),
         },
