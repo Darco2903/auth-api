@@ -5,6 +5,7 @@ import {
     authHeaderSchema,
     accessTokenDataDecodedSchema,
     accessRefreshSchema,
+    accessRefreshPendingSchema,
     emailCredentialSchema,
     emailSchema,
     passwordCredentialSchema,
@@ -46,7 +47,7 @@ export default c.router({
             turnstile: turnstileSchema,
         }),
         responses: {
-            200: apiSuccess(accessRefreshSchema),
+            200: apiSuccess(accessRefreshPendingSchema),
             400: ZodErrorSchema,
             401: z.union([
                 apiError(

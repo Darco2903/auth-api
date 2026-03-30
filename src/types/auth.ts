@@ -9,4 +9,8 @@ export const accessRefreshSchema = accessSchema.extend({
     refreshToken: z.string(),
 });
 
+export const accessRefreshPendingSchema = accessSchema.extend({
+    refreshToken: z.string().nullable(),
+});
+
 export const totpCodeSchema = z.string().min(6).max(6);
