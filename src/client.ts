@@ -1,8 +1,10 @@
 import { Second } from "@darco2903/secondthought";
-export * from "./common.js";
 import { initClient } from "@ts-rest/core";
 import contract from "./contract/index.js";
 import { UserRole } from "./roles.js";
+
+export * from "./common.js";
+export { generateOTP } from "./otp.js";
 
 export function createClient(origin: string) {
     return initClient(contract, {

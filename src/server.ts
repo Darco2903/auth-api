@@ -1,4 +1,3 @@
-export * from "./common.js";
 import jwt from "jsonwebtoken";
 import { ResultAsync } from "neverthrow";
 import type { Algorithm } from "jsonwebtoken";
@@ -12,6 +11,9 @@ import {
     type JWTSignError,
 } from "./types/index.js";
 import { JWT_ALGORITHM, JWT_ALGORITHMS } from "./consts.js";
+
+export * from "./common.js";
+export { verifyOTP } from "./otp.js";
 
 export function JWTVerify(
     token: string,
