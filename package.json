@@ -27,7 +27,7 @@
         "generate:openapi": "tsx tools/generate-openapi.ts"
     },
     "dependencies": {
-        "@darco2903/cdn-api": "^1.1.0",
+        "@darco2903/cdn-api": "^1.2.0",
         "@ts-rest/core": "^3.52.1",
         "@ts-rest/open-api": "^3.52.1",
         "jsonwebtoken": "^9.0.3",
@@ -40,7 +40,7 @@
     },
     "devDependencies": {
         "@types/jsonwebtoken": "^9.0.10",
-        "@types/node": "^25.5.0",
+        "@types/node": "^24.12.2",
         "prettier": "^3.8.1",
         "rimraf": "^6.1.3",
         "tsx": "^4.21.0",
