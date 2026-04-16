@@ -27,6 +27,7 @@ export const userSchema = userPublicSchema.extend({
     email: z.string().email(),
     role: z.number().int().min(-1, "Invalid level").max(255, "Invalid level"),
     verified: z.boolean(),
+    totp_enabled: z.boolean(),
     last_login: z.date().nullable(),
     created_at: z.date(),
     updated_at: z.date(),
