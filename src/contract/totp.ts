@@ -35,7 +35,7 @@ export default c.router({
             totpCode: totpCodeSchema,
         }),
         responses: {
-            204: apiSuccess(c.noBody()),
+            200: apiSuccess(z.array(totpCodeSchema)),
             400: z.union([
                 ZodErrorSchema,
                 apiError(z.literal("TOTP_NOT_SETUP"), z.string()),
