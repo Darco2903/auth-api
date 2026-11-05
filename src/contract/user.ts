@@ -43,6 +43,26 @@ export default c.router({
         },
     },
 
+    fromEmail: {
+        method: "POST",
+        path: "/user/email/lookup",
+        description:
+            "Find a user by their exact email, for logged in users with the User role. In the body so the email stays out of URLs and logs. Rate limited.",
+        headers: authHeaderSchema,
+        body: z.object({
+            email: emailSchema,
+        }),
+        responses: {
+            200: apiSuccess(userPublicSchema),
+            400: ZodErrorSchema,
+            401: apiError(z.literal("UNAUTHORIZED"), z.literal("Unauthorized")),
+            403: apiError(z.literal("FORBIDDEN"), z.string()),
+            404: apiError(z.literal("NOT_FOUND"), z.literal("User not found")),
+            429: apiError(z.literal("TOO_MANY_REQUESTS"), z.string()),
+            500: apiError(z.literal("INTERNAL_SERVER_ERROR"), z.string()),
+        },
+    },
+
     me: {
         method: "GET",
         path: "/user/me",
